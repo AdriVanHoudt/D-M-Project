@@ -1,16 +1,18 @@
-import model.*;
+import model.Nummer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Scanner;
 
 public class TestFestival {
     public static void main(String[] args) throws ParseException {
+        Nummer nr = new Nummer();
 
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+
+        session.saveOrUpdate(nr);
     }
 }
 

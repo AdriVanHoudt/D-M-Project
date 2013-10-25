@@ -15,10 +15,12 @@ public class TestData {
 
         for(int i=0;i<5;i++){
 
+            /*
             Festival festival = new Festival();
             festival.setName(festivalNames[i]);
             festival.setStartDate();
             festival.setEndDate();
+        */
         }
     }
 }

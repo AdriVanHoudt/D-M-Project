@@ -22,7 +22,7 @@ public class Nummer {
     private Integer duur;
 
     @ManyToOne
-    @JoinColumn(name = "optredenId", nullable = false)
+    @JoinColumn(name = "optredenId", nullable = true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Optreden optreden;
 

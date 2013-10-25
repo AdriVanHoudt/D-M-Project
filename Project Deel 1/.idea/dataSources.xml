@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3864976597">
-    <data-source source="LOCAL" name="Data Source" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="a4f38307-e80c-4b7a-af52-21a51d31e9b6">
+  <component name="DataSourceManagerImpl" format="xml" hash="391398863">
+    <data-source source="LOCAL" name="hibernateMySQL.cfg.xml" product="MySQL" version="5.6.14-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.26 ( Revision: ${bzr.revision-id} )" uuid="3dde3ed1-266f-4d30-8711-cf379a3f8e82">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:3306/project</jdbc-url>
-      <user-name>Vincent</user-name>
-      <user-password>dfdddfc3dfc0dfc4dfcfdfcddfcfdfc7df98df9bdf9bdf9a</user-password>
-      <libraries />
-    </data-source>
-    <data-source source="LOCAL" name="test" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="c0dc74ba-527d-4192-bd7e-dcfdcce1f65d">
-      <jdbc-url>jdbc:mysql://localhost:3306/project</jdbc-url>
-      <user-name>vincent</user-name>
-      <user-password>dfdddfc3dfc0dfc4dfcfdfcddfcfdfc7df98df9bdf9bdf9a</user-password>
-      <libraries />
+      <user-name>KdGTest</user-name>
+      <user-password>dfcbdfd0dfcfdfd8dfdedfd3</user-password>
+      <schema-pattern>project.*</schema-pattern>
+      <libraries>
+        <library>
+          <url>jar://$PROJECT_DIR$/lib/mysql-connector-java-5.1.26-bin.jar!/</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>
