@@ -1,11 +1,7 @@
 package model;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * User: Adri
@@ -34,10 +30,6 @@ public class Festival {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Date getStartDate() {

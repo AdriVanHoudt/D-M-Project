@@ -1,5 +1,7 @@
 package model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 /**
@@ -17,6 +19,32 @@ public class Optreden {
 
     private Integer duration;
     private Integer soundcheck;
+
+    @ManyToOne
+    @JoinColumn(name = "zoneId", nullable = false)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Zone zone;
+
+    @ManyToOne
+    @JoinColumn(name = "festivaldagId", nullable = false)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private FestivalDag festivalDag;
+
+    public Zone getZone() {
+        return zone;
+    }
+
+    public void setZone(Zone zone) {
+        this.zone = zone;
+    }
+
+    public FestivalDag getFestivalDag() {
+        return festivalDag;
+    }
+
+    public void setFestivalDag(FestivalDag festivalDag) {
+        this.festivalDag = festivalDag;
+    }
 
     public Optreden() {
     }

@@ -12,7 +12,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "t_festivalday")
-public class FestivalDay {
+public class FestivalDag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,15 +25,11 @@ public class FestivalDay {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Festival festival;
 
-    public FestivalDay() {
+    public FestivalDag() {
     }
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public Date getDate() {

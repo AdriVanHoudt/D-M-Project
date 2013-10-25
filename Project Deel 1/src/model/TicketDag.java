@@ -15,7 +15,7 @@ public class TicketDag {
     @ManyToOne
     @JoinColumn(name = "festivaldagId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private FestivalDay festivalDay;
+    private FestivalDag festivalDag;
 
     @ManyToOne
     @JoinColumn(name = "ticketTypeId", nullable = false)
@@ -29,12 +29,12 @@ public class TicketDag {
         return id;
     }
 
-    public FestivalDay getFestivalDay() {
-        return festivalDay;
+    public FestivalDag getFestivalDag() {
+        return festivalDag;
     }
 
-    public void setFestivalDay(FestivalDay festivalDay) {
-        this.festivalDay = festivalDay;
+    public void setFestivalDag(FestivalDag festivalDag) {
+        this.festivalDag = festivalDag;
     }
 
     public TicketType getTicketType() {
