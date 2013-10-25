@@ -23,11 +23,6 @@ public class TicketType {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private TicketDag ticketDag;
 
-    @ManyToOne
-    @JoinColumn(name = "ticketzoneId", nullable = false)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private TicketZone ticketZone;
-
     public TicketType() {
     }
 
@@ -57,13 +52,5 @@ public class TicketType {
 
     public void setTicketDag(TicketDag ticketDag) {
         this.ticketDag = ticketDag;
-    }
-
-    public TicketZone getTicketZone() {
-        return ticketZone;
-    }
-
-    public void setTicketZone(TicketZone ticketZone) {
-        this.ticketZone = ticketZone;
     }
 }

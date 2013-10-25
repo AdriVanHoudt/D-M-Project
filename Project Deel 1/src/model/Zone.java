@@ -25,11 +25,6 @@ public class Zone {
     private Festival festival;
 
     @ManyToOne
-    @JoinColumn(name = "ticketZoneId", nullable = false)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private TicketZone ticketZone;
-
-    @ManyToOne
     @JoinColumn(name = "zoneId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Zone zone;
@@ -63,14 +58,6 @@ public class Zone {
 
     public void setFestival(Festival festival) {
         this.festival = festival;
-    }
-
-    public TicketZone getTicketZone() {
-        return ticketZone;
-    }
-
-    public void setTicketZone(TicketZone ticketZone) {
-        this.ticketZone = ticketZone;
     }
 
     public Zone getZone() {

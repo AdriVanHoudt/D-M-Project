@@ -17,9 +17,11 @@ public class TestFestival {
 
         Ticket ticket = new Ticket();
 
-        TicketType ticktType = new TicketType();
+        TicketType ticketType = new TicketType();
 
+        TicketZone ticketZone = new TicketZone();
 
+        Zone zone = new Zone();
 
         festivalGanger.setNaam("Vincent Huysmans");
         festivalGanger2.setNaam("Adri Van Houdt");
@@ -34,7 +36,13 @@ public class TestFestival {
 
         ticket.setTicketVerkoop(ticketVerkoop);
 
+        ticketType.setNaam("Dagticket");
+        ticketType.setPrijs(35);
 
+        zone.setNaam("");
+
+        ticketZone.setTicketType(ticketType);
+        ticketZone.setZone(zone);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
