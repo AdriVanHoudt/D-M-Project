@@ -14,8 +14,8 @@ public class TestFestival {
 
         Festival festival = new Festival();
 
-        FestivalDay festivalDay = new FestivalDay();
-        FestivalDay festivalDay1 = new FestivalDay();
+        FestivalDag festivalDag = new FestivalDag();
+        FestivalDag festivalDag1 = new FestivalDag();
 
         FestivalGanger festivalGanger = new FestivalGanger();
         FestivalGanger festivalGanger2 = new FestivalGanger();
@@ -44,13 +44,13 @@ public class TestFestival {
 
         oldstring = "2013-10-25";
         date = new SimpleDateFormat("yyyy-MM-dd").parse(oldstring);
-        festivalDay.setDate(date);
-        festivalDay.setFestival(festival);
+        festivalDag.setDate(date);
+        festivalDag.setFestival(festival);
 
         oldstring = "2013-10-26";
         date = new SimpleDateFormat("yyyy-MM-dd").parse(oldstring);
-        festivalDay1.setDate(date);
-        festivalDay1.setFestival(festival);
+        festivalDag1.setDate(date);
+        festivalDag1.setFestival(festival);
 
         festivalGanger.setNaam("Vincent Huysmans");
         festivalGanger2.setNaam("Adri Van Houdt");
@@ -80,7 +80,7 @@ public class TestFestival {
         ticketZone.setTicketType(ticketType);
         ticketZone.setZone(zone1);
 
-        ticketDag.setFestivalDay(festivalDay1);
+        ticketDag.setFestivalDag(festivalDag1);
         ticketDag.setTicketType(ticketType);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -95,8 +95,8 @@ public class TestFestival {
         session.saveOrUpdate(ticketZone);
         session.saveOrUpdate(zone);
         session.saveOrUpdate(zone1);
-        session.saveOrUpdate(festivalDay);
-        session.saveOrUpdate(festivalDay1);
+        session.saveOrUpdate(festivalDag);
+        session.saveOrUpdate(festivalDag1);
         session.saveOrUpdate(festival);
         tx.commit();
     }

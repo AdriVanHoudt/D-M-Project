@@ -32,10 +32,6 @@ public class Festival {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
     public Date getStartDate() {
         return startDate;
     }

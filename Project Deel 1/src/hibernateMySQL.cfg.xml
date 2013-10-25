@@ -29,7 +29,7 @@
         <!-- <mapping resource="persistence/Album.hbm.xml"/>    -->
         <!-- <mapping resource="persistence/Artist.hbm.xml"/>  -->
         <mapping class="model.Festival" />
-        <mapping class="model.FestivalDay" />
+        <mapping class="model.FestivalDag" />
         <mapping class="model.Optreden" />
         <mapping class="model.FestivalGanger" />
         <mapping class="model.TicketVerkoop" />
