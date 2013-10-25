@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><component name="dataSourceStorage">
+  <data-source source="LOCAL" name="Data Source" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="a4f38307-e80c-4b7a-af52-21a51d31e9b6">
+    <jdbc-url>jdbc:mysql://localhost:3306/project</jdbc-url>
+    <user-name>Vincent</user-name>
+    <user-password>dfdddfc3dfc0dfc4dfcfdfcddfcfdfc7df98df9bdf9bdf9a</user-password>
+    <libraries />
+  </data-source>
+  <data-source source="LOCAL" name="test" product="" version="" jdbc-version="" driver-name="" driver-version="" uuid="c0dc74ba-527d-4192-bd7e-dcfdcce1f65d">
+    <jdbc-url>jdbc:mysql://localhost:3306/project</jdbc-url>
+    <user-name>vincent</user-name>
+    <user-password>dfdddfc3dfc0dfc4dfcfdfcddfcfdfc7df98df9bdf9bdf9a</user-password>
+    <libraries />
+  </data-source>
+</component>
