@@ -19,13 +19,17 @@ public class Festival {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (name = "startDate")
+
+    @Column(name = "startDate")
     private Date startDate;
-    @Column (name = "endDate")
+
+    @Column(name = "endDate")
     private Date endDate;
-    @Column (name = "name")
+
+    @Column(name = "name")
     private String name;
-    @Column (name = "location")
+
+    @Column(name = "location")
     private String location;
 
     @OneToMany
