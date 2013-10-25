@@ -64,6 +64,7 @@ public class TestFestival {
         ticketVerkoop.setTimestamp(date);
 
         ticket.setTicketVerkoop(ticketVerkoop);
+        ticket.setTicketType(ticketType);
 
         ticketType.setNaam("Dagticket");
         ticketType.setPrijs(35);

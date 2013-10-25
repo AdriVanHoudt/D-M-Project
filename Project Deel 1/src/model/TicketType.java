@@ -18,11 +18,6 @@ public class TicketType {
     @Column(name = "prijs")
     private Integer prijs;
 
-    @ManyToOne
-    @JoinColumn(name = "ticketDagId", nullable = false)
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private TicketDag ticketDag;
-
     public TicketType() {
     }
 
@@ -44,13 +39,5 @@ public class TicketType {
 
     public void setPrijs(Integer prijs) {
         this.prijs = prijs;
-    }
-
-    public TicketDag getTicketDag() {
-        return ticketDag;
-    }
-
-    public void setTicketDag(TicketDag ticketDag) {
-        this.ticketDag = ticketDag;
     }
 }

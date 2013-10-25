@@ -32,11 +32,6 @@ public class Festival {
     @Column(name = "location")
     private String location;
 
-    @OneToMany
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    @JoinColumn(name = "festivalDayId", nullable = false)
-    private Set<FestivalDay> festivalDays = new HashSet<>();
-
     public Integer getId() {
         return id;
     }
