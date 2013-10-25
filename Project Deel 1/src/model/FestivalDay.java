@@ -1,5 +1,7 @@
 package model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -17,6 +19,11 @@ public class FestivalDay {
     private Integer id;
 
     private Date date;
+
+    @ManyToOne
+    @JoinColumn(name = "festivalId", nullable = false)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Festival festival;
 
     public FestivalDay() {
     }
@@ -37,4 +44,11 @@ public class FestivalDay {
         this.date = date;
     }
 
+    public Festival getFestival() {
+        return festival;
+    }
+
+    public void setFestival(Festival festival) {
+        this.festival = festival;
+    }
 }

@@ -25,7 +25,7 @@ public class Zone {
     private Festival festival;
 
     @ManyToOne
-    @JoinColumn(name = "zoneId", nullable = false)
+    @JoinColumn(name = "zoneId", nullable = true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Zone zone;
 
