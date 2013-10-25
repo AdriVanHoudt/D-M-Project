@@ -1,30 +1,26 @@
 package model;
 
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.util.Date;
 
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 24/10/13
- * Time: 21:00
- * To change this template use File | Settings | File Templates.
- */
 @Entity
-@Table (name = "t_ticketverkoop")
+@Table(name = "t_ticketverkoop")
 public class TicketVerkoop {
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (name = "type")
+
+    @Column(name = "type")
     private String type;
-    @Column (name = "timestamp")
+
+    @Column(name = "timestamp")
     private Date timestamp;
+
     @ManyToOne
-    @JoinColumn(name = "festivalgangerId", nullable=false)
+    @JoinColumn(name = "festivalgangerId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private FestivalGanger festivalGanger;
 

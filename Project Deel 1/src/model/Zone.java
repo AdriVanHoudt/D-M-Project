@@ -4,33 +4,33 @@ import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 24/10/13
- * Time: 21:58
- * To change this template use File | Settings | File Templates.
- */
+
 @Entity
 @Table(name = "t_zone")
 public class Zone {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (name = "naam")
+
+    @Column(name = "naam")
     private String naam;
-    @Column (name = "capaciteit")
+
+    @Column(name = "capaciteit")
     private Integer capaciteit;
+
     @ManyToOne
-    @JoinColumn(name = "festivalId", nullable=false)
+    @JoinColumn(name = "festivalId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Festival festival;
+
     @ManyToOne
-    @JoinColumn(name = "ticketZoneId", nullable=false)
+    @JoinColumn(name = "ticketZoneId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private TicketZone ticketZone;
+
     @ManyToOne
-    @JoinColumn(name = "zoneId", nullable=false)
+    @JoinColumn(name = "zoneId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Zone zone;
 
