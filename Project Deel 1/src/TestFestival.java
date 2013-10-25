@@ -11,6 +11,7 @@ public class TestFestival {
     public static void main(String[] args) throws ParseException {
         String oldstring;
         Date date;
+        String input;
 
         Festival festival = new Festival();
 
@@ -52,6 +53,15 @@ public class TestFestival {
         festivalDay1.setDate(date);
         festivalDay1.setFestival(festival);
 
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction tx = session.beginTransaction();
+
+        session.saveOrUpdate(festivalDay);
+        session.saveOrUpdate(festivalDay1);
+        session.saveOrUpdate(festival);
+
+        System.out.println("Geef uw naam: ");
+
         festivalGanger.setNaam("Vincent Huysmans");
         festivalGanger2.setNaam("Adri Van Houdt");
 
@@ -83,8 +93,7 @@ public class TestFestival {
         ticketDag.setFestivalDay(festivalDay1);
         ticketDag.setTicketType(ticketType);
 
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
+
 
         session.saveOrUpdate(festivalGanger);
         session.saveOrUpdate(festivalGanger2);
@@ -95,9 +104,7 @@ public class TestFestival {
         session.saveOrUpdate(ticketZone);
         session.saveOrUpdate(zone);
         session.saveOrUpdate(zone1);
-        session.saveOrUpdate(festivalDay);
-        session.saveOrUpdate(festivalDay1);
-        session.saveOrUpdate(festival);
+
         tx.commit();
     }
 }
