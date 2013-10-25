@@ -26,6 +26,9 @@ public class Nummer {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Optreden optreden;
 
+    public Nummer() {
+    }
+
     public Integer getId() {
         return id;
     }

@@ -39,6 +39,10 @@
         <mapping class="model.TicketType"/>
         <mapping class="model.TicketZone" />
         <mapping class="model.Zone" />
+        <mapping class="model.Nummer" />
+        <mapping class="model.Apparatuur" />
+        <mapping class="model.OptredenApparatuur" />
+        <mapping class="model.Artiest" />
 
     </session-factory>
 
