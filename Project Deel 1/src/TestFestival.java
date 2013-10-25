@@ -5,15 +5,12 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 22/10/13
- * Time: 23:04
- * To change this template use File | Settings | File Templates.
- */
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class TestFestival {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         FestivalGanger festivalGanger = new FestivalGanger();
         FestivalGanger festivalGanger2 = new FestivalGanger();
         TicketVerkoop ticketVerkoop = new TicketVerkoop();
@@ -24,13 +21,17 @@ public class TestFestival {
         ticketVerkoop.setFestivalGanger(festivalGanger);
         ticketVerkoop.setType("Website");
 
-        ticketVerkoop.setTimestamp();
+        String oldstring = "2011-01-18 08:00:00.0";
+        Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S").parse(oldstring);
+
+        ticketVerkoop.setTimestamp(date);
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Transaction tx = session.beginTransaction();
 
         session.saveOrUpdate(festivalGanger);
         session.saveOrUpdate(festivalGanger2);
+        session.saveOrUpdate(ticketVerkoop);
         tx.commit();
     }
 }
