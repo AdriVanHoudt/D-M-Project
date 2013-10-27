@@ -7,6 +7,7 @@ import java.text.ParseException;
 
 public class TestFestival {
     public static void main(String[] args) throws ParseException {
+        // gewoon omdat hibernate dan zijn ding doet
         Nummer nr = new Nummer();
 
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
