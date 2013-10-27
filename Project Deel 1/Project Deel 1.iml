@@ -4,7 +4,7 @@
     <facet type="hibernate" name="Hibernate">
       <configuration>
         <datasource-map>
-          <unit-entry name="hibernateMySQL.cfg.xml" value="3dde3ed1-266f-4d30-8711-cf379a3f8e82" />
+          <unit-entry name="hibernateMySQL.cfg.xml" value="11fef1d8-f625-4965-a7ff-2cf96163bdd0" />
         </datasource-map>
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/hibernateMySQL.cfg.xml" />
       </configuration>
@@ -17,7 +17,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="hibernate-4.2.2" level="application" />
     <orderEntry type="library" name="log4j-1.2.15" level="project" />
     <orderEntry type="library" name="hibernate-4.2.2" level="project" />
     <orderEntry type="library" name="mysql-connector-java-5.1.26-bin" level="project" />

@@ -30,6 +30,19 @@ public class Optreden {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private FestivalDag festivalDag;
 
+    @ManyToOne
+    @JoinColumn(name = "artiestId", nullable = false)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Artiest artiest;
+
+    public Artiest getArtiest() {
+        return artiest;
+    }
+
+    public void setArtiest(Artiest artiest) {
+        this.artiest = artiest;
+    }
+
     public Zone getZone() {
         return zone;
     }
