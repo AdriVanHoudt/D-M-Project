@@ -204,7 +204,7 @@ public class TestData {
         }
 
         for(Optreden o : optredens){
-            System.out.println("Artiest: " + o.getArtiest().getNaam() + "\n Festival: " + o.getFestivalDag().getFestival().getName() + "\n Begin: " + o.getStartTime()  + " Eind: " + o.getEndTime() + "\n Podium: " + o.getZone().getNaam());
+            System.out.println("Artiest: " + o.getArtiest().getNaam() + "\n Festival: " + o.getFestivalDag().getFestival().getName() + "\n Begin: " + o.getStartTime()  + " End: " + o.getEndTime() + "\n Podium: " + o.getZone().getNaam());
         }
 
     }
