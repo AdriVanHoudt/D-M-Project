@@ -13,6 +13,7 @@ public class TestData {
     private List<Artiest> artists = new ArrayList<>();
     private Set<FestivalDag> festivalDays = new HashSet<>();
     private List<Optreden> optredens = new ArrayList<>();
+    private List<Nummer> nummers = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -211,17 +212,48 @@ public class TestData {
 
     public void generateNummers(Optreden optreden){
         //moet nog aangevuld worden
-        String[] nummerArtiest = {""};
-        String[] nummerTitel = {""};
+        String[] nummerArtiest = {"Eminem","Chase & Status","The Prodigy","Franz Ferdinand","Goose","Triggerfinger","Green Day","Netsky",
+                "Blur","Kings Of Leon","Rammstein","Depeche Mode","Tiësto","Dimitri Vegas & Like Mike","Armin Van Buuren","Avicii","David Guetta",
+                "Booka Shade","Disclosure","Chris Liebing"};
+        String[] nummerTitel = {"Sing for the Moment","Rock Bottom","We as Americans","Till I Collapse","Role Model","Yellow Brick Road","Guilty Conscience","The Way I Am","Lose Yourself","Stan",
+        "End Credits","Let You Go","Pieces","Blind Faith","Heavy","Heartbeat","Hypest Hype","Time","Flashing Lights",
+        "Omen","Breathe","Firestarter","Invaders Must Die","Smack My B**** Up","Voodoo People","Take Me To The Hospital", "Warrior's Dance","Spitfire","Stand Up",
+        "Take Me Out","The Dark Of Matinee","No You Girls","Ulysses","Dou You Want To","The Fallen","Walk Away","What She Came For","Lucid Dreams","You Could Have It So Much Better",
+        "British Mode","Bring it on","Words","Can't stop me now","Synrise","Real","Control","Lucifer","United","Black Gloves",
+        "All Night Long","It Hasnt Gone Away","Man Down","Only Girl In The World (Cover)","Commotion","I Follow Rivers","Love Lost in Love","All This Dancin' Around","Let It Ride","First Taste",
+        "Boulevard of Broken Dreams","Holiday","Guns","Wake Me Up When September Ends","Basket Case","Jesus of Suburbia","American Idiot","Good Riddance (Time of Your Life)","Longview","When I Come Around",
+        "Love Has Gone","Come Alive","Iron Heart","Eyes Closed","Give & Take","Puppy","Secret Agent","Smile","911","Pirate Bay",
+        "Song 2","The Universal","Coffee & TV","Parklife","Beetlebum","Girls & Boys","Charmless Man","Tender","Country House","Sweet Song",
+        "Use Somebody","Sex On Fire","Closer","Pyro","Radioactive","Revelry","Notion","Knocked Up","On Call","Fans",
+        "Du Hast","Sonne","Mein Teil","Ich Will","Feuer Frei","Mein Herz brennt","Ich Tu Dir Weh","Reise, Reise","Engel","Amerika",
+        "Enjoy the Silence","Personal Jesus","Precious","Policy of Truth","In Your Room","Never Let Me Down Again","It's No Good","Walking In My Shoes","Stripped","Strangelove",
+        "Adagio For Strings","Urban Train","Traffic","Dance 4 Life","Lethal Industry","Maximal Crazy","Elements of Life","C'mon","Magic Journey","I Will Be Here",
+        "Mammoth","REJ","Madness","Phat Brahms","The Way We See The World","Leave The World Behind","Momentum","Turn It Up","Wakanda",
+        "This Is What It Feels Like","Face to Face","Intense","In and Out of Love","YouTopia","Not Giving Up On Love","Mirage","Beautiful Life","Humming the Lights","This Light Between Us",
+        "Levels","Wake Me Up","I Could Be The One","Silhouettes","Seek Bromance","Fade Into Darkness","Sunshine","Superlove","X You","Last Dance",
+        "Titanium","Club Can't Handle Me","Sexy Chick","Without You","Where Them Girls At","Memories","Little Bad Girl","She Wolf","When Love Takes Over","Turn Me On",
+        "King of Good","Silk","Every Day in My Life","Stupid Questions","Vertigo / Memento","Body Language","Mandarine Girl","Darko","In White Rooms","Night Falls",
+        "I Love… That You Know","Manic (Disclosure Remix)","Need U 100%","Call On Me (Disclosure Bootleg)","You Used To Hold Me","My Intention is War","Control","Please Don’t Turn Me On (Disclosure Remix)","Flow","Get Close",
+        "Ping Pong Pineapple","Bossi","Too Much Talk","Turbular Bell","Auf Und Ab","Lausanne","The Real Schranz","Drumcook","Stigmata","Virton"};
+
+        Random rand = new Random();
 
         //20 nummers per optreden
         for(int i = 0; i < 20; i++){
+            int indexArtiest = rand.nextInt(nummerArtiest.length);
+            int indexTitel = rand.nextInt(nummerTitel.length);
             Nummer nummer = new Nummer();
-            /*nummer.setArtiest();
-            nummer.setTitel();  */
-            nummer.setDuur(300); //300 seconden voor een nummer
+            nummer.setArtiest(nummerArtiest[indexArtiest]);
+            nummer.setTitel(nummerTitel[indexTitel]);
+            nummer.setDuur(240); //240 seconden voor een nummer
             nummer.setOptreden(optreden);
+            nummers.add(nummer);
         }
+
+        for(Nummer n : nummers){
+            System.out.println("Artiest: " + n.getArtiest() + "\nTitel: " + n.getTitel() + "\nOptreden: " + n.getOptreden().getArtiest().getNaam() + " op: " + n.getOptreden().getFestivalDag().getFestival().getName());
+        }
+
     }
 
     public void generateApparatuur(Zone zone){
