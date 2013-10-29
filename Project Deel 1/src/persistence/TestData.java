@@ -1,7 +1,6 @@
 package persistence;
 
-import model.Festival;
-import model.FestivalDag;
+import model.*;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
@@ -10,11 +9,17 @@ import java.util.*;
 
 public class TestData {
     private Set<Festival> festivals = new HashSet<>();
+    private List<Zone> zones = new ArrayList<>();
+    private List<Artiest> artists = new ArrayList<>();
+    private Set<FestivalDag> festivalDays = new HashSet<>();
+    private List<Optreden> optredens = new ArrayList<>();
 
 
     public static void main(String[] args) {
         TestData td = new TestData();
         td.generateFestivals();
+        td.generateArtists();
+        td.generateOptredens();
     }
 
 
@@ -31,6 +36,7 @@ public class TestData {
 
             endMonth = month;
             endYear = year;
+            //willekeurige einddatum -> willekeurig aantal festivaldagen
             endDay = day + rand.nextInt(4) + 1;
 
             GregorianCalendar calendarStart = new GregorianCalendar(year, month, day);
@@ -51,12 +57,13 @@ public class TestData {
             festival.setEndDate(new Date(formattedDateEnd));
 
             //test
-            System.out.println(formattedDateStart);
-            System.out.println(formattedDateEnd);
+            System.out.println("Festival start: " + formattedDateStart);
+            System.out.println("Festival eind: " + formattedDateEnd);
 
             festivals.add(festival);
 
             generateFestivalDag(festival);
+            generateZone(festival);
         }
     }
 
@@ -64,6 +71,7 @@ public class TestData {
         Date newDate = new Date();
         DateTime start = new DateTime(festival.getStartDate());
         DateTime end = new DateTime(festival.getEndDate());
+        //berekent het aantal dagen per festival er zijn
         int days = Days.daysBetween(start, end).getDays() + 1;
 
         for(int i = 0; i < days; i++) {
@@ -80,9 +88,146 @@ public class TestData {
 
             festivalDag.setDate(new Date(formattedDate));
 
+            festivalDays.add(festivalDag);
+
             //test
-            System.out.println(formattedDate);
+            System.out.println("Festivaldag " + i + " dag: " + formattedDate);
         }
+
+    }
+
+    public void generateZone(Festival festival){
+        String[] zoneNames = {"VIP ruimte","VIP ruimte Mainstage","Backstage ruimte","Sanitair Mainstage","Sanitair Red Bull","Camping","Mainstage","Festivalterrein Mainstage","Red Bull Stage", "Festivalterrein Red Bull Stage","The Barn","Festivalterrein The Barn","Klub C","Festivalterrein Klub C","Red Light Disctrict","Festivalterrein Red Light District"};
+
+        Random rand = new Random();
+
+        for(int i = 0; i < zoneNames.length; i++){
+            Zone zone = new Zone();
+            zone.setNaam(zoneNames[i]);
+            zone.setFestival(festival);
+
+            //test
+            System.out.println(zone.getFestival().getName());
+            System.out.println(zone.getNaam());
+
+            //hier wordt de foreign key naar zichzelf gevuld.
+            if(zoneNames[i].contains("Festivalterrein"))    {
+                zone.setZone(zones.get(zones.size() - 1));
+                //test
+                System.out.println(zone.getZone().getNaam());
+            }
+            zones.add(zone);
+            generateApparatuur(zone);
+        }
+    }
+
+    public void generateArtists(){
+        //alle artiesten met hun bio's
+        String[] artistNames = {"Eminem","Chase & Status","The Prodigy","Franz Ferdinand","Goose","Triggerfinger","Green Day","Netsky",
+        "Blur","Kings Of Leon","Rammstein","Depeche Mode","Tiësto","Dimitri Vegas & Like Mike","Armin Van Buuren","Avicii","David Guetta",
+        "Booka Shade","Disclosure","Chris Liebing"};
+        String[] bio = {"Eminem, artiestennaam van Marshall Bruce Mathers III, ook wel Slim Shady genoemd, (St. Joseph (Missouri), 17 oktober 1972) is een Amerikaans rapper, producer en occasioneel acteur.",
+        "Chase & Status is een producersduo uit Londen dat elektronische muziek maakt, voornamelijk drum 'n' bass en dubstep. De groep bestaat uit Saul Chase Milton en Will Status Kennard en werd opgericht in 2003.",
+        "The Prodigy is een Britse dance-act. The Prodigy is een van de succesvolste acts die de dansmuziek van de jaren 90 van de twintigste eeuw hebben voortgebracht.",
+        "Franz Ferdinand is een Britse rockband, opgericht in 2001. De band werd in Glasgow gevormd door zanger/gitarist Alex Kapranos, gitarist Nick McCarthy, bassist Bob Hardy en drummer Paul Thomson.",
+        "Goose is een Belgische elektrorockband bestaande uit Mickael Karkousse, Dave Martijn, Tom Coghe en Bert Libeert.",
+        "Triggerfinger is een Belgische hardrockband afkomstig uit Antwerpen en Lier.",
+        "Green Day is een Amerikaanse punkrockband uit Oakland, Californië.",
+        "Netsky, de artiestennaam van Boris Daenen (Edegem, 5 april 1989), is een Belgisch dj en producent van dubstep en drum and bass.",
+        "Blur is een Engelse rockband. De groep is een van de bekendste britpopbands en zorgde samen met zijn grote rivaal Oasis halverwege de jaren negentig voor het succes van dit genre.",
+        "Kings of Leon is een Amerikaanse rockband uit Nashville.",
+        "Rammstein is een Duitse metalband die naar eigen zeggen Tanzmetall produceert, ofwel een synthese van progressive metal, industrial en techno, met enige gothic-invloeden.",
+        "Depeche Mode is een Britse band die elektronische muziek maakt.",
+        "Tiësto, ook wel aangeduid als DJ Tiësto, artiestennaam van Tijs Michiel Verwest (Breda, 17 januari 1969) is een Nederlandse top-dj die vaak optreedt op grote dance-evenementen",
+        "Dimitri Vegas & Like Mike is een Belgisch dj-duo, bestaande uit de twee broers Dimitri Thivaios (Dimitri Vegas) en Michael Thivaios (Like Mike).",
+        "Armin van Buuren (Leiden, 25 december 1976) is een Nederlandse dj en producer.",
+        "Avicii is de artiestennaam van Tim Bergling (Stockholm, 8 september 1989), een Zweedse dj, remixer en muziekproducent.",
+        "David Guetta (Parijs, 7 november 1967) is een Franse dj en dance-pop-producent (vroeger housemuziek).",
+        "Booka Shade is een Duits microhouse-duo.",
+        "Garage/elektronische muziek duo uit het Verenigd Koninkrijk",
+        "Christoph (Chris) Liebing (Gießen, 11 december 1968) is een Duitse dj en producent van techno uit Frankfurt."};
+
+        for(int i = 0; i < artistNames.length ; i++){
+            Artiest artiest = new Artiest();
+            artiest.setNaam(artistNames[i]);
+            artiest.setBio(bio[i]);
+
+            artists.add(artiest);
+        }
+
+        //test
+        for(Artiest a : artists){
+            System.out.println("Naam: " + a.getNaam() + "\nBio: " + a.getBio());
+        }
+
+    }
+
+    public void generateOptredens(){
+        Random rand = new Random();
+        List<Zone> podia = new ArrayList<>();
+
+        //hier worden de podiums uit de zones gehaald. omdat er bepaalde zones zijn waar geen optreden gedaan wordt
+        for(Zone z : zones){
+           if(z.getNaam().contains("Festivalterrein")) {
+            podia.add(z);
+           }
+        }
+        //lus voor alle festivaldagen
+        for(FestivalDag fd : festivalDays){
+            //lus voor alle podia per festivaldag
+            for(int i = 0; i < podia.size(); i++){
+                Date optredenTime = fd.getDate();
+                //6 optredens per podia per festivaldag
+                for(int j = 0; j < 6; j++ ){
+                    Optreden optreden = new Optreden();
+                    optreden.setFestivalDag(fd);
+                    //willekeurige artiest voor een optreden
+                    int index = rand.nextInt(artists.size());
+                    Artiest randomArtist = artists.get(index);
+                    //set de zone voor een optreden
+                    optreden.setZone(podia.get(i).getZone());
+                    //de startdatum van een optreden
+                    optreden.setStartTime(optredenTime);
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(optredenTime);
+                    //de startdatum wordt met 2 uren opgeteld
+                    cal.add(Calendar.HOUR_OF_DAY, 2);
+                    optredenTime = cal.getTime();
+                    optreden.setEndTime(optredenTime);
+                    optreden.setArtiest(randomArtist);
+                    //soundcheck van 10 minuten
+                    optreden.setSoundcheck(10);
+                    optredens.add(optreden);
+                    generateNummers(optreden);
+                }
+            }
+        }
+
+        for(Optreden o : optredens){
+            System.out.println("Artiest: " + o.getArtiest().getNaam() + "\n Festival: " + o.getFestivalDag().getFestival().getName() + "\n Begin: " + o.getStartTime()  + " Eind: " + o.getEndTime() + "\n Podium: " + o.getZone().getNaam());
+        }
+
+    }
+
+    public void generateNummers(Optreden optreden){
+        //moet nog aangevuld worden
+        String[] nummerArtiest = {""};
+        String[] nummerTitel = {""};
+
+        //20 nummers per optreden
+        for(int i = 0; i < 20; i++){
+            Nummer nummer = new Nummer();
+            /*nummer.setArtiest();
+            nummer.setTitel();  */
+            nummer.setDuur(300); //300 seconden voor een nummer
+            nummer.setOptreden(optreden);
+        }
+    }
+
+    public void generateApparatuur(Zone zone){
+        String[] apparatuurNaam = {""};
+
+        //moet nog aangevuld worden
 
     }
 }

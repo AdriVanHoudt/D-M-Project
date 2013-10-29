@@ -3,6 +3,8 @@ package model;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.sql.Time;
+import java.util.Date;
 
 /**
  * User: Adri
@@ -17,8 +19,10 @@ public class Optreden {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer duration;
     private Integer soundcheck;
+
+    private Date startTime;
+    private Date endTime;
 
     @ManyToOne
     @JoinColumn(name = "zoneId", nullable = false)
@@ -62,12 +66,20 @@ public class Optreden {
     public Optreden() {
     }
 
-    public Integer getDuration() {
-        return duration;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public Integer getId() {
