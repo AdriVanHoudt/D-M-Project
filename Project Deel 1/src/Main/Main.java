@@ -1,3 +1,5 @@
+package Main;
+
 import model.Nummer;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -5,7 +7,7 @@ import persistence.HibernateUtil;
 
 import java.text.ParseException;
 
-public class TestFestival {
+public class Main {
     public static void main(String[] args) throws ParseException {
         // gewoon omdat hibernate dan zijn ding doet
         Nummer nr = new Nummer();
@@ -15,5 +17,12 @@ public class TestFestival {
 
         session.saveOrUpdate(nr);
     }
+
+
+    //start console app
+    private void runConsole() {
+
+    }
+
 }
 
