@@ -29,6 +29,15 @@ public class TicketVerkoop {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private FestivalGanger festivalGanger;
 
+
+    public Festival getFestival() {
+        return festival;
+    }
+
+    public void setFestival(Festival festival) {
+        this.festival = festival;
+    }
+
     public TicketVerkoop() {
     }
 

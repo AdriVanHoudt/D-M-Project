@@ -1,16 +1,23 @@
 package Main;
 
+import model.Festival;
+import model.FestivalGanger;
 import model.Nummer;
+import model.TicketVerkoop;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     Scanner scanner = new Scanner(System.in);
+    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 
 
     public static void main(String[] args) throws ParseException {
@@ -30,14 +37,44 @@ public class Main {
         //print menu and returns the chosen option
         switch (getOptionMainMenu()) {
             case 1:
+                //make sure scanner is empty
+                if (scanner.hasNext()) scanner.next();
+
                 //TODO registratie verkoop
-                //1..n via web
+                //1..n; via web
 
                 //maak festivalganger
                 System.out.println("Geef je naam:");
-                scanner.next();
+                FestivalGanger buyer = new FestivalGanger();
+                buyer.setNaam(scanner.next());
+                session.saveOrUpdate(buyer);
+
+                //get festivals
+                Query getFestivals = session.createQuery("from Festival");
+                List festivals = getFestivals.list();
+
+                //kies festival
+                System.out.println("Kies je festival:");
+                for (int i = 0; i < festivals.size(); i++) {
+                    System.out.print((i + 1) + ": ");
+                    System.out.println(((Festival) festivals.get(i)).getName());
+                }
+
+                int festivalChoice = scanner.nextInt();
+                if (scanner.hasNext()) scanner.next();
+
                 //maak ticketverkoop
-                //set type op web
+                TicketVerkoop sale = new TicketVerkoop();
+                sale.setFestivalGanger(buyer);
+                sale.setTimestamp(new Date());
+                sale.setType(TicketVerkoop.VerkoopsType.WEB);
+                sale.setFestival((Festival) festivals.get(festivalChoice - 1));
+
+                session.saveOrUpdate(sale);
+
+                //get tickettypes
+                System.out.println("Welk tickettype wil je?");
+                Query getticketTypes = session.createQuery("from TicketType ");
                 //kies tickettype
                 //maak tickets
 
