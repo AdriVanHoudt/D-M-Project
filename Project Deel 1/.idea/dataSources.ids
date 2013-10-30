@@ -2038,8 +2038,8 @@
       <column name="festivaldagId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_gtiicj0vnce9sow1p5ok6x1sq" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_725msxwgst9s0wd0jpwul87no" columns="festivaldagId" ref-table="t_festivalday" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_gtiicj0vnce9sow1p5ok6x1sq" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_ooxg5s3fb8rxg05pwjiy3515d" columns="artiestId" ref-table="t_artiest" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_19wr1grx4og68elp1i1dj50ed" table="t_nummer" schema="" catalog="project" columns="optredenId"/>
       <exported-key name="FK_s8brew22voq0ja4wrrb8jrb6c" table="t_optredenapparatuur" schema="" catalog="project" columns="optredenId"/>
@@ -2051,8 +2051,8 @@
       <column name="apparatuurId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="optredenId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_s8brew22voq0ja4wrrb8jrb6c" columns="optredenId" ref-table="t_optreden" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_ryahovnfgf8q1g5a0axy2lfy9" columns="apparatuurId" ref-table="t_apparaturr" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_s8brew22voq0ja4wrrb8jrb6c" columns="optredenId" ref-table="t_optreden" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_persorgaan" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2075,8 +2075,8 @@
       <column name="festivaldagId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="ticketTypeId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_plpj2f1hcg8wkdc2m43gjj9tt" columns="ticketTypeId" ref-table="t_tickettype" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_nt8x93l6klufmqa6wikyo69fu" columns="festivaldagId" ref-table="t_festivalday" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_plpj2f1hcg8wkdc2m43gjj9tt" columns="ticketTypeId" ref-table="t_tickettype" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_tickettype" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2101,8 +2101,8 @@
       <column name="ticketTypeId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_q6syt7kuukiv9yiwx840qkd97" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_16drabb8mreiyt0ugiw9k64du" columns="ticketTypeId" ref-table="t_tickettype" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_q6syt7kuukiv9yiwx840qkd97" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_zone" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2111,8 +2111,8 @@
       <column name="festivalId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_lmtykdajksnhmdcmsh82icbg1" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_dolu92sx1b43h6mmx3un8s0fr" columns="festivalId" ref-table="t_festival" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_lmtykdajksnhmdcmsh82icbg1" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_1lvb1gtuac68til1y89uq095v" table="t_apparaturr" schema="" catalog="project" columns="zoneId"/>
       <exported-key name="FK_gtiicj0vnce9sow1p5ok6x1sq" table="t_optreden" schema="" catalog="project" columns="zoneId"/>
       <exported-key name="FK_q6syt7kuukiv9yiwx840qkd97" table="t_ticketzone" schema="" catalog="project" columns="zoneId"/>
@@ -2241,8 +2241,8 @@
       <column name="category_id" sqlType="TINYINT UNSIGNED" length="3" precision="0" nullable="false" jdbcType="-6"/>
       <column name="last_update" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="film_id,category_id"/>
-      <foreign-key name="fk_film_category_film" columns="film_id" ref-table="film" ref-schema="" ref-catalog="sakila" ref-columns="film_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_film_category_category" columns="category_id" ref-table="category" ref-schema="" ref-catalog="sakila" ref-columns="category_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_film_category_film" columns="film_id" ref-table="film" ref-schema="" ref-catalog="sakila" ref-columns="film_id" update-rule="0" delete-rule="3" deferrability="2"/>
     </table>
     <table name="film_list" schema="" catalog="sakila" type="VIEW">
       <column name="FID" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="true" jdbcType="5" def="MA=="/>
@@ -2267,8 +2267,8 @@
       <column name="store_id" sqlType="TINYINT UNSIGNED" length="3" precision="0" nullable="false" jdbcType="-6"/>
       <column name="last_update" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="inventory_id"/>
-      <foreign-key name="fk_inventory_store" columns="store_id" ref-table="store" ref-schema="" ref-catalog="sakila" ref-columns="store_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_inventory_film" columns="film_id" ref-table="film" ref-schema="" ref-catalog="sakila" ref-columns="film_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_inventory_store" columns="store_id" ref-table="store" ref-schema="" ref-catalog="sakila" ref-columns="store_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_rental_inventory" table="rental" schema="" catalog="sakila" columns="inventory_id"/>
       <index name="idx_fk_film_id" unique="false" columns="film_id"/>
       <index name="idx_store_id_film_id" unique="false" columns="store_id,film_id"/>
@@ -2300,8 +2300,8 @@
       <column name="payment_date" sqlType="DATETIME" length="19" precision="0" nullable="false" jdbcType="93"/>
       <column name="last_update" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="payment_id"/>
-      <foreign-key name="fk_payment_rental" columns="rental_id" ref-table="rental" ref-schema="" ref-catalog="sakila" ref-columns="rental_id" update-rule="0" delete-rule="2" deferrability="2"/>
       <foreign-key name="fk_payment_customer" columns="customer_id" ref-table="customer" ref-schema="" ref-catalog="sakila" ref-columns="customer_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_payment_rental" columns="rental_id" ref-table="rental" ref-schema="" ref-catalog="sakila" ref-columns="rental_id" update-rule="0" delete-rule="2" deferrability="2"/>
       <foreign-key name="fk_payment_staff" columns="staff_id" ref-table="staff" ref-schema="" ref-catalog="sakila" ref-columns="staff_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <index name="idx_fk_customer_id" unique="false" columns="customer_id"/>
       <index name="idx_fk_staff_id" unique="false" columns="staff_id"/>
@@ -2315,9 +2315,9 @@
       <column name="staff_id" sqlType="TINYINT UNSIGNED" length="3" precision="0" nullable="false" jdbcType="-6"/>
       <column name="last_update" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="rental_id"/>
-      <foreign-key name="fk_rental_staff" columns="staff_id" ref-table="staff" ref-schema="" ref-catalog="sakila" ref-columns="staff_id" update-rule="0" delete-rule="3" deferrability="2"/>
-      <foreign-key name="fk_rental_inventory" columns="inventory_id" ref-table="inventory" ref-schema="" ref-catalog="sakila" ref-columns="inventory_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_rental_customer" columns="customer_id" ref-table="customer" ref-schema="" ref-catalog="sakila" ref-columns="customer_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_rental_inventory" columns="inventory_id" ref-table="inventory" ref-schema="" ref-catalog="sakila" ref-columns="inventory_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_rental_staff" columns="staff_id" ref-table="staff" ref-schema="" ref-catalog="sakila" ref-columns="staff_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_payment_rental" table="payment" schema="" catalog="sakila" columns="rental_id"/>
       <index name="rental_date" unique="true" columns="rental_date,inventory_id,customer_id"/>
       <index name="idx_fk_customer_id" unique="false" columns="customer_id"/>
@@ -2346,8 +2346,8 @@
       <column name="password" sqlType="VARCHAR" length="40" precision="0" nullable="true" jdbcType="12"/>
       <column name="last_update" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="staff_id"/>
-      <foreign-key name="fk_staff_store" columns="store_id" ref-table="store" ref-schema="" ref-catalog="sakila" ref-columns="store_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_staff_address" columns="address_id" ref-table="address" ref-schema="" ref-catalog="sakila" ref-columns="address_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_staff_store" columns="store_id" ref-table="store" ref-schema="" ref-catalog="sakila" ref-columns="store_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_payment_staff" table="payment" schema="" catalog="sakila" columns="staff_id"/>
       <exported-key name="fk_rental_staff" table="rental" schema="" catalog="sakila" columns="staff_id"/>
       <exported-key name="fk_store_staff" table="store" schema="" catalog="sakila" columns="manager_staff_id"/>
@@ -2370,8 +2370,8 @@
       <column name="address_id" sqlType="SMALLINT UNSIGNED" length="5" precision="0" nullable="false" jdbcType="5"/>
       <column name="last_update" sqlType="TIMESTAMP" length="19" precision="0" nullable="false" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA=" version="true"/>
       <primary-key name="PRIMARY" columns="store_id"/>
-      <foreign-key name="fk_store_staff" columns="manager_staff_id" ref-table="staff" ref-schema="" ref-catalog="sakila" ref-columns="staff_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <foreign-key name="fk_store_address" columns="address_id" ref-table="address" ref-schema="" ref-catalog="sakila" ref-columns="address_id" update-rule="0" delete-rule="3" deferrability="2"/>
+      <foreign-key name="fk_store_staff" columns="manager_staff_id" ref-table="staff" ref-schema="" ref-catalog="sakila" ref-columns="staff_id" update-rule="0" delete-rule="3" deferrability="2"/>
       <exported-key name="fk_customer_store" table="customer" schema="" catalog="sakila" columns="store_id"/>
       <exported-key name="fk_inventory_store" table="inventory" schema="" catalog="sakila" columns="store_id"/>
       <exported-key name="fk_staff_store" table="staff" schema="" catalog="sakila" columns="store_id"/>

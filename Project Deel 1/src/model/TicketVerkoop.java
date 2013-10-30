@@ -14,13 +14,18 @@ public class TicketVerkoop {
     private Integer id;
 
     @Column(name = "type")
-    private String type;
+    private VerkoopsType type;
 
     @Column(name = "timestamp")
     private Date timestamp;
 
     @ManyToOne
-    @JoinColumn(name = "festivalgangerId", nullable = false)
+    @JoinColumn(name = "festivalId", nullable = false)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Festival festival;
+
+    @ManyToOne
+    @JoinColumn(name = "festivalgangerId", nullable = true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private FestivalGanger festivalGanger;
 
@@ -31,11 +36,11 @@ public class TicketVerkoop {
         return id;
     }
 
-    public String getType() {
+    public VerkoopsType getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(VerkoopsType type) {
         this.type = type;
     }
 
@@ -53,5 +58,9 @@ public class TicketVerkoop {
 
     public void setFestivalGanger(FestivalGanger festivalGanger) {
         this.festivalGanger = festivalGanger;
+    }
+
+    public enum VerkoopsType {
+        WEB, VERKOOPSCENTRA, FESTIVAL
     }
 }

@@ -14,10 +14,23 @@ public class Tracking {
 
     private Date timestamp;
 
+    //1 = IN
+    //0 = OUT
+    private boolean direction;
+
     @ManyToOne
     @JoinColumn(name = "zoneId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Zone zone;
+
+
+    public boolean isDirection() {
+        return direction;
+    }
+
+    public void setDirection(boolean direction) {
+        this.direction = direction;
+    }
 
     public Tracking() {
     }
