@@ -21,6 +21,8 @@ public class TestData {
     private List<PersOrgaan> persOrganen = new ArrayList<>();
     private List<Perstoelating> persToelatingen = new ArrayList<>();
     private List<Tracking> trackings = new ArrayList<>();
+    private List<FestivalGanger> festivalGangers = new ArrayList<>();
+    private List<TicketVerkoop> ticketVerkopen = new ArrayList<>();
 
 
     public static void main(String[] args) {
@@ -28,6 +30,7 @@ public class TestData {
         td.generateFestivals();
         td.generateArtists();
         td.generateOptredens();
+        td.generateFestivalgangers();
     }
 
 
@@ -65,8 +68,8 @@ public class TestData {
             festival.setEndDate(new Date(formattedDateEnd));
 
             //test
-         /*   System.out.println("Festival start: " + formattedDateStart);
-            System.out.println("Festival eind: " + formattedDateEnd); */
+            /*   System.out.println("Festival start: " + formattedDateStart);
+       System.out.println("Festival eind: " + formattedDateEnd); */
 
             festivals.add(festival);
 
@@ -233,7 +236,7 @@ public class TestData {
     }
 
     public void generateNummers(Optreden optreden) {
-        //moet nog aangevuld worden
+
         String[] nummerArtiest = {"Eminem", "Chase & Status", "The Prodigy", "Franz Ferdinand", "Goose", "Triggerfinger", "Green Day", "Netsky",
                 "Blur", "Kings Of Leon", "Rammstein", "Depeche Mode", "Tiësto", "Dimitri Vegas & Like Mike", "Armin Van Buuren", "Avicii", "David Guetta",
                 "Booka Shade", "Disclosure", "Chris Liebing"};
@@ -499,9 +502,9 @@ public class TestData {
         persToelatingen.add(perstoelating);
 
         //test
-       /* for (Perstoelating pt : persToelatingen) {
-            System.out.println("Artiest " + pt.getArtiest().getNaam() + " heeft pers " + pt.getPersOrgaan().getNaam() + " met toelating om te " + pt.getSoort());
-        }  */
+        /* for (Perstoelating pt : persToelatingen) {
+          System.out.println("Artiest " + pt.getArtiest().getNaam() + " heeft pers " + pt.getPersOrgaan().getNaam() + " met toelating om te " + pt.getSoort());
+      }  */
     }
 
     public void generateTrackings(Zone zone) {
@@ -517,7 +520,7 @@ public class TestData {
                 month = cal.get(Calendar.MONTH);
                 year = cal.get(Calendar.YEAR);
                 day = cal.get(Calendar.DAY_OF_MONTH);
-                hourOfDay = rand.nextInt(12)+12;
+                hourOfDay = rand.nextInt(12) + 12;
                 minute = rand.nextInt(60);
                 second = rand.nextInt(60);
 
@@ -539,10 +542,55 @@ public class TestData {
         }
 
         //test
-       for (Tracking t : trackings) {
+        for (Tracking t : trackings) {
             System.out.println("Zone " + t.getZone().getNaam() + " op " + t.getZone().getFestival().getName() + " heeft tracking " + t.getTimestamp());
         }
 
+
+    }
+
+    public void generateFestivalgangers() {
+        String[] names = {"Virginia King", "Ann Barnes", "Janice Ramirez", "George Gray", "Rachel Long", "Adam Allen", "Maria Wilson", "Michael White", "Pamela James",
+                "Julie Turner", "Daniel Lopez", "Melissa Green", "Jose Foster", "Louis Reed", "Phyllis Patterson", "Steven Cox", "Sara Torres", "Emily Hall", "Lawrence Wood",
+                "Ruth Hernandez", "Annie Watson", "Bobby Bryant", "Ronald Perry", "Irene Bell", "Kathryn Brown", "Teresa Miller", "Sean Perez", "Stephen Williams",
+                "Catherine Bailey", "Nancy Hill", "Edward Taylor", "Philip Evans", "Donald Rogers", "Judith Jackson", "Evelyn Lee", "Lisa Bennett", "Laura Harris",
+                "Nicole Powell", "Christina Edwards", "Victor Clark", "Jacqueline Campbell", "Carl Ward", "Carol Davis", "Lois Wright", "Kelly Diaz", "Samuel Thompson",
+                "Jean Moore", "Lori Martin", "Debra Morgan", "Diane Sanders", "Barbara Stewart", "David Rivera", "Eugene Ross", "Gerald Mitchell", "Theresa Roberts",
+                "Betty Nelson", "Shirley Howard", "Christopher Murphy", "Richard Butler", "Lillian Jones", "Jessica Martinez", "Ralph Kelly", "Randy Walker", "Jimmy Lewis",
+                "Mildred Robinson", "Harry Hughes", "Helen Adams", "Louise Young", "Harold Gonzalez", "Mark Parker", "Tammy Henderson", "Gary Peterson", "Judy Gonzales",
+                "Karen Phillips", "Gregory Smith", "Wayne Richardson", "Joe Price", "Marilyn Morris", "Matthew Cook", "Deborah Flores", "Jack Garcia", "Michelle Coleman",
+                "Scott Thomas", "Kenneth Griffin", "Susan Brooks", "Jeffrey Carter", "Marie Cooper", "Ryan Sanchez", "Joyce Johnson", "Carlos Alexander", "Fred Collins",
+                "Stephanie Russell", "Rebecca Jenkins", "Shawn Anderson", "Kevin Baker", "Amy Rodriguez", "Chris Scott", "Heather Simmons", "Beverly Washington", "Marta Phillips",
+                "Tammy Smith", "Peter Hill", "Katherine Perez", "Jack Ramirez", "Steve Foster", "Wayne Roberts", "Gregory Simmons", "Andrew Nelson", "Carl Gonzales",
+                "Ruth Davis", "Amanda Adams", "Joseph Scott", "William White", "Kenneth Wilson", "Sara Wood", "Phillip Sanders", "Ryan Bennett", "Pamela Howard", "Kelly Jenkins",
+                "Nicole Lee", "Aaron Perry", "Samuel Thomas", "Russell James", "Benjamin Lopez", "Janice Coleman", "Scott Ross", "Ashley Watson", "Carlos Edwards", "Lois Kelly",
+                "Joe Cooper", "Lori Barnes", "Justin Jackson", "Bobby Evans", "Jimmy Richardson", "Donald Turner", "Edward Washington", "Jeremy Griffin", "Rose Bryant",
+                "Judy Henderson", "Jonathan Hughes", "Fred Clark", "Melissa Butler", "Stephen Powell", "Timothy Ward", "Doris Thompson", "Kimberly Diaz", "Christopher Morgan",
+                "Terry Collins", "Elizabeth Johnson", "Douglas Russell", "Evelyn Parker", "Deborah Flores", "Angela Patterson", "Diane Gonzalez", "Joan Bailey", "Dennis Baker",
+                "Julia Martin", "Louis Reed", "Helen Anderson", "Albert Taylor", "Brenda Rodriguez", "Roy Bell", "Kevin Brown", "Theresa Williams", "Charles Stewart",
+                "Juan Cook", "George Mitchell", "Joshua Martinez", "Eric Walker", "Paul Hernandez", "Willie Murphy", "Jason Green", "Kathleen Miller", "David Jones",
+                "Alice Alexander", "Louise Sanchez", "Chris Hall", "Ronald Campbell", "Anne Carter", "Gary Phillips", "Brian Rogers", "Cheryl Long", "Keith Morris",
+                "Ralph Rivera", "Philip Lewis", "Michelle Allen", "Nicholas Harris", "Lillian Young", "John Moore", "Frances Wright", "Jean Garcia", "James Brooks", "Bonnie Cox",
+                "Janet Torres", "Carolyn Robinson", "Martha Peterson", "Patricia Gray", "Shawn Price", "Jerry King", "Victor Huysmans"};
+
+        for (int i = 0; i < names.length; i++) {
+            FestivalGanger festivalGanger = new FestivalGanger();
+            festivalGanger.setNaam(names[i]);
+            festivalGangers.add(festivalGanger);
+            generateTicketVerkoop(festivalGanger);
+        }
+
+
+    }
+
+    public void generateTicketVerkoop(FestivalGanger festivalGanger) {
+        TicketVerkoop ticketVerkoop = new TicketVerkoop();
+        ticketVerkoop.setFestivalGanger(festivalGanger);
+        ticketVerkoop.setTimestamp(new Date());
+        ticketVerkopen.add(ticketVerkoop);
+    }
+
+    public void generateTicketType(){
 
     }
 
