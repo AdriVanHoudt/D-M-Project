@@ -21,7 +21,17 @@ public class Main {
 
     //start console app
     private void runConsole() {
+        //init menu
 
+
+        //registratie verkoop
+        //back to menu
+        //opslaan passage
+        //back to menu
+        //zoeken optreden
+        //back to menu
+        //zoeken festival
+        //back to menu
     }
 
 }
