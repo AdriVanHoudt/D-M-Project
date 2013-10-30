@@ -17,8 +17,6 @@ public class OptredenApparatuur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
-    private String naam;
     private Integer aantal;
 
     @ManyToOne
@@ -36,14 +34,6 @@ public class OptredenApparatuur {
     }
 
     public OptredenApparatuur() {
-    }
-
-    public String getNaam() {
-        return naam;
-    }
-
-    public void setNaam(String naam) {
-        this.naam = naam;
     }
 
     public Integer getAantal() {

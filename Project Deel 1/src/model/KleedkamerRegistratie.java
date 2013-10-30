@@ -26,9 +26,9 @@ public class KleedkamerRegistratie {
     private Date eindDatum;
 
     @ManyToOne
-    @JoinColumn(name = "artiestId", nullable = true)
+    @JoinColumn(name = "optredenID", nullable = true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private Artiest artiest;
+    private Optreden optreden;
 
     @ManyToOne
     @JoinColumn(name = "faciliteitId", nullable = true)
@@ -66,12 +66,12 @@ public class KleedkamerRegistratie {
         this.eindDatum = eindDatum;
     }
 
-    public Artiest getArtiest() {
-        return artiest;
+    public Optreden getOptreden() {
+        return optreden;
     }
 
-    public void setArtiest(Artiest artiest) {
-        this.artiest = artiest;
+    public void setOptreden(Optreden optreden) {
+        this.optreden = optreden;
     }
 
     public Faciliteit getFaciliteit() {

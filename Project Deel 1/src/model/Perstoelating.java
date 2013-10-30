@@ -61,7 +61,7 @@ public class Perstoelating {
         this.persOrgaan = persOrgaan;
     }
 
-    private enum ToelatingSoort {
+    public enum ToelatingSoort {
         FOTO, FILM, FOTOFILM
     }
 
