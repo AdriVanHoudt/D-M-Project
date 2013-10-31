@@ -1,5 +1,7 @@
 package model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,11 @@ public class TicketType {
 
     @Column(name = "prijs")
     private Integer prijs;
+
+    @ManyToOne
+    @JoinColumn(name = "festivalId", nullable = false)
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+    private Festival festival;
 
     public TicketType() {
     }
@@ -37,5 +44,13 @@ public class TicketType {
 
     public void setPrijs(Integer prijs) {
         this.prijs = prijs;
+    }
+
+    public Festival getFestival() {
+        return festival;
+    }
+
+    public void setFestival(Festival festival) {
+        this.festival = festival;
     }
 }

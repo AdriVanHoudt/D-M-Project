@@ -4,6 +4,10 @@ import model.*;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import persistence.HibernateUtil;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -23,7 +27,13 @@ public class TestData {
     private List<Tracking> trackings = new ArrayList<>();
     private List<FestivalGanger> festivalGangers = new ArrayList<>();
     private List<TicketVerkoop> ticketVerkopen = new ArrayList<>();
+    private List<TicketType> ticketTypes = new ArrayList<>();
+    private List<Ticket> tickets = new ArrayList<>();
+    private List<TicketZone> ticketZones = new ArrayList<>();
+    private List<TicketDag> ticketDagen = new ArrayList<>();
 
+    private static Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    private static Transaction tx = session.beginTransaction();
 
     public static void main(String[] args) {
         TestData td = new TestData();
@@ -31,6 +41,7 @@ public class TestData {
         td.generateArtists();
         td.generateOptredens();
         td.generateFestivalgangers();
+        tx.commit();
     }
 
 
@@ -76,6 +87,9 @@ public class TestData {
             generateFestivalDag(festival);
             generateZone(festival);
         }
+        for (Festival f : festivals) {
+            session.saveOrUpdate(f);
+        }
     }
 
     public void generateFestivalDag(Festival festival) {
@@ -104,7 +118,9 @@ public class TestData {
             //test
             //System.out.println("Festivaldag " + i + " dag: " + formattedDate);
         }
-
+        for (FestivalDag fd : festivalDays) {
+            session.saveOrUpdate(fd);
+        }
     }
 
     public void generateZone(Festival festival) {
@@ -137,6 +153,9 @@ public class TestData {
             generateApparatuur(zone);
             generateFaciliteiten(zone);
             generateTrackings(zone);
+        }
+        for (Zone z : zones) {
+            session.saveOrUpdate(z);
         }
     }
 
@@ -178,10 +197,10 @@ public class TestData {
             generatePersToelating(artiest);
         }
 
-        //test
-        /*  for(Artiest a : artists){
-           System.out.println("Naam: " + a.getNaam() + "\nBio: " + a.getBio());
-       } */
+
+        for (Artiest a : artists) {
+            session.saveOrUpdate(a);
+        }
 
     }
 
@@ -228,10 +247,10 @@ public class TestData {
                 }
             }
         }
-        //test
-        /*for(Optreden o : optredens){
-            System.out.println("Artiest: " + o.getArtiest().getNaam() + "\n Festival: " + o.getFestivalDag().getFestival().getName() + "\n Begin: " + o.getStartTime()  + " End: " + o.getEndTime() + "\n Podium: " + o.getZone().getNaam());
-        }  */
+
+        for (Optreden o : optredens) {
+            session.saveOrUpdate(o);
+        }
 
     }
 
@@ -274,10 +293,10 @@ public class TestData {
             nummer.setOptreden(optreden);
             nummers.add(nummer);
         }
-        //test
-        /*   for(Nummer n : nummers){
-        System.out.println("Artiest: " + n.getArtiest() + "\nTitel: " + n.getTitel() + "\nOptreden: " + n.getOptreden().getArtiest().getNaam() + " op: " + n.getOptreden().getFestivalDag().getFestival().getName());
-    }    */
+
+        for (Nummer n : nummers) {
+            session.saveOrUpdate(n);
+        }
 
     }
 
@@ -291,10 +310,10 @@ public class TestData {
             apparaten.add(apparatuur);
         }
 
-        //test
-        /*  for(Apparatuur a : apparaten){
-          System.out.println("Zone " + a.getZone().getNaam() + " heeft " + a.getAantal() + " " + a.getNaam() + "s");
-      }  */
+
+        for (Apparatuur a : apparaten) {
+            session.saveOrUpdate(a);
+        }
 
     }
 
@@ -308,10 +327,10 @@ public class TestData {
             optredenApparatuur.setAantal(aantal);
             optredenApparatuurs.add(optredenApparatuur);
         }
-        //test
-        /* for(OptredenApparatuur oa : optredenApparatuurs){
-         System.out.println("Optreden " + oa.getOptreden().getArtiest().getNaam() + " op " + oa.getOptreden().getFestivalDag().getFestival().getName() + " heeft " + oa.getAantal() + " " + oa.getApparatuur().getNaam() + " nodig." );
-     }   */
+
+        for (OptredenApparatuur oa : optredenApparatuurs) {
+            session.saveOrUpdate(oa);
+        }
     }
 
     public void generateFaciliteiten(Zone zone) {
@@ -437,10 +456,10 @@ public class TestData {
             //do nothing
         }
 
-        //test
-        /* for(Faciliteit f : faciliteiten){
-           System.out.println("Zone " + f.getZone().getNaam() + " op " + f.getZone().getFestival().getName() +" heeft " + f.getType() + " als faciliteit.");
-       } */
+
+        for (Faciliteit f : faciliteiten) {
+            session.saveOrUpdate(f);
+        }
 
     }
 
@@ -472,10 +491,9 @@ public class TestData {
 
         kleedkamerRegistraties.add(kleedkamerRegistratie);
 
-        //test
-        /*for(KleedkamerRegistratie kr : kleedkamerRegistraties){
-            System.out.println("Artiest " + kr.getOptreden().getArtiest().getNaam() + " heeft een kleedkamer gereserveerd van " + kr.getBeginDatum() + " tot " + kr.getEindDatum());
-        } */
+        for (KleedkamerRegistratie kr : kleedkamerRegistraties) {
+            session.saveOrUpdate(kr);
+        }
     }
 
     public void generatePersorgaan() {
@@ -501,14 +519,14 @@ public class TestData {
         perstoelating.setSoort(soorten[indexSoort]);
         persToelatingen.add(perstoelating);
 
-        //test
-        /* for (Perstoelating pt : persToelatingen) {
-          System.out.println("Artiest " + pt.getArtiest().getNaam() + " heeft pers " + pt.getPersOrgaan().getNaam() + " met toelating om te " + pt.getSoort());
-      }  */
+        for (Perstoelating pt : persToelatingen) {
+            session.saveOrUpdate(pt);
+        }
     }
 
     public void generateTrackings(Zone zone) {
         int month, year, day, hourOfDay, minute, second;
+        Boolean isIn;
         Random rand = new Random();
 
         for (FestivalDag fd : festivalDays) {
@@ -530,10 +548,17 @@ public class TestData {
 
                 String formattedTimeStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timestamp);
 
+                if(i % 2 == 0) {
+                    isIn = false;
+                } else {
+                    isIn = true;
+                }
+
                 if (timestamp.before(new Date())) {
                     Tracking tracking = new Tracking();
                     tracking.setZone(zone);
                     tracking.setTimestamp(new Date(formattedTimeStamp));
+                    tracking.setDirection(isIn);
                     trackings.add(tracking);
                 } else {
                     //do nothing
@@ -541,9 +566,8 @@ public class TestData {
             }
         }
 
-        //test
         for (Tracking t : trackings) {
-            System.out.println("Zone " + t.getZone().getNaam() + " op " + t.getZone().getFestival().getName() + " heeft tracking " + t.getTimestamp());
+            session.saveOrUpdate(t);
         }
 
 
@@ -580,17 +604,221 @@ public class TestData {
             generateTicketVerkoop(festivalGanger);
         }
 
+        for (FestivalGanger fg : festivalGangers) {
+            session.saveOrUpdate(fg);
+        }
 
     }
 
     public void generateTicketVerkoop(FestivalGanger festivalGanger) {
+        TicketVerkoop.VerkoopsType[] types = {TicketVerkoop.VerkoopsType.FESTIVAL, TicketVerkoop.VerkoopsType.VERKOOPSCENTRA, TicketVerkoop.VerkoopsType.WEB};
+        Random rand = new Random();
+        int index = rand.nextInt(festivals.size());
+        int indexType = rand.nextInt(types.length);
+
         TicketVerkoop ticketVerkoop = new TicketVerkoop();
         ticketVerkoop.setFestivalGanger(festivalGanger);
         ticketVerkoop.setTimestamp(new Date());
+        ticketVerkoop.setFestival(festivals.get(index));
+        ticketVerkoop.setType(types[indexType]);
         ticketVerkopen.add(ticketVerkoop);
+        generateTicketType();
+        generateTickets(ticketVerkoop);
+
+        for (TicketVerkoop tv : ticketVerkopen) {
+            session.saveOrUpdate(tv);
+        }
     }
 
-    public void generateTicketType(){
+    public void generateTicketType() {
+        String naamRegular = "";
+        String naamVIP = "";
+        String naamPers = "";
+        int prijsRegular = 0;
+        int prijsVIP = 0;
+        int prijsPers = 0;
+
+        Random rand = new Random();
+
+        for (FestivalDag fd : festivalDays) {
+            TicketType regularTicketType = new TicketType();
+            TicketType vipTicketType = new TicketType();
+            TicketType persTicketType = new TicketType();
+
+            String day = new SimpleDateFormat("EEEE").format(fd.getDate());
+            naamRegular = "Regular dagticket van " + fd.getFestival().getName() + " op " + day;
+            naamVIP = "VIP dagticket van " + fd.getFestival().getName() + " op " + day;
+            naamPers = "Pers dagticket van " + fd.getFestival().getName() + " op " + day;
+
+            prijsRegular = rand.nextInt(20) + 30;
+            prijsVIP = rand.nextInt(40) + 50;
+            prijsPers = rand.nextInt(10) + 20;
+
+            regularTicketType.setNaam(naamRegular);
+            regularTicketType.setPrijs(prijsRegular);
+            regularTicketType.setFestival(fd.getFestival());
+
+            vipTicketType.setNaam(naamVIP);
+            vipTicketType.setPrijs(prijsVIP);
+            vipTicketType.setFestival(fd.getFestival());
+
+            persTicketType.setNaam(naamPers);
+            persTicketType.setPrijs(prijsPers);
+            persTicketType.setFestival(fd.getFestival());
+
+            ticketTypes.add(regularTicketType);
+            ticketTypes.add(vipTicketType);
+            ticketTypes.add(persTicketType);
+
+            generateTicketZones(regularTicketType);
+            generateTicketZones(vipTicketType);
+            generateTicketZones(persTicketType);
+
+            generateTicketDag(regularTicketType);
+            generateTicketDag(vipTicketType);
+            generateTicketDag(persTicketType);
+
+        }
+
+        for (Festival f : festivals) {
+            TicketType regularTicketType = new TicketType();
+            TicketType vipTicketType = new TicketType();
+            TicketType persTicketType = new TicketType();
+
+            naamRegular = "Regular combiticket van " + f.getName();
+            naamVIP = "VIP combiticket van " + f.getName();
+            naamPers = "Pers combiticket van " + f.getName();
+
+            prijsRegular = rand.nextInt(70) + 70;
+            prijsVIP = rand.nextInt(80) + 90;
+            prijsPers = rand.nextInt(20) + 30;
+
+            vipTicketType.setNaam(naamVIP);
+            vipTicketType.setPrijs(prijsVIP);
+            vipTicketType.setFestival(f);
+
+            persTicketType.setNaam(naamPers);
+            persTicketType.setPrijs(prijsPers);
+            persTicketType.setFestival(f);
+
+            regularTicketType.setNaam(naamRegular);
+            regularTicketType.setPrijs(prijsRegular);
+            regularTicketType.setFestival(f);
+
+            ticketTypes.add(regularTicketType);
+            ticketTypes.add(vipTicketType);
+            ticketTypes.add(persTicketType);
+
+            generateTicketZones(regularTicketType);
+            generateTicketZones(vipTicketType);
+            generateTicketZones(persTicketType);
+
+            generateTicketDag(regularTicketType);
+            generateTicketDag(vipTicketType);
+            generateTicketDag(persTicketType);
+
+        }
+
+        for (TicketType ticketType : ticketTypes) {
+            session.saveOrUpdate(ticketType);
+        }
+
+    }
+
+    public void generateTickets(TicketVerkoop ticketVerkoop) {
+        Random rand = new Random();
+
+        int index = (int) (Math.random() * 3) + 1;
+
+        for (int i = 0; i < index; i++) {
+            int indexType = rand.nextInt(ticketTypes.size());
+            int indexPers = rand.nextInt(persOrganen.size());
+
+            if (ticketTypes.get(indexType).getNaam().contains(ticketVerkoop.getFestival().getName())) {
+                Ticket ticket = new Ticket();
+                ticket.setTicketVerkoop(ticketVerkoop);
+                ticket.setTicketType(ticketTypes.get(indexType));
+                if (ticketTypes.get(indexType).getNaam().contains("Pers")) {
+                    ticket.setPersOrgaan(persOrganen.get(indexPers));
+                }
+                tickets.add(ticket);
+            } else {
+                i--;
+            }
+        }
+
+
+        for (Ticket t : tickets) {
+            session.saveOrUpdate(t);
+        }
+
+    }
+
+    public void generateTicketZones(TicketType ticketType) {
+        if (ticketType.getNaam().contains("Regular")) {
+            for (Zone z : zones) {
+                if (z.getNaam().contains("Inkom") || z.getNaam().contains("Camping") || z.getNaam().contains("Festivalterrein")) {
+                    TicketZone ticketZone = new TicketZone();
+                    ticketZone.setTicketType(ticketType);
+                    ticketZone.setZone(z);
+                    ticketZones.add(ticketZone);
+                } else {
+                    //de nothing
+                }
+            }
+        } else if (ticketType.getNaam().contains("VIP")) {
+            for (Zone z : zones) {
+                if (z.getNaam().contains("Inkom") || z.getNaam().contains("Camping") || z.getNaam().contains("Festivalterrein") || z.getNaam().contains("VIP")) {
+                    TicketZone ticketZone = new TicketZone();
+                    ticketZone.setTicketType(ticketType);
+                    ticketZone.setZone(z);
+                    ticketZones.add(ticketZone);
+                } else {
+                    //de nothing
+                }
+            }
+        } else {
+            for (Zone z : zones) {
+                TicketZone ticketZone = new TicketZone();
+                ticketZone.setTicketType(ticketType);
+                ticketZone.setZone(z);
+                ticketZones.add(ticketZone);
+            }
+        }
+
+        for (TicketZone tz : ticketZones) {
+            session.saveOrUpdate(tz);
+        }
+    }
+
+    public void generateTicketDag(TicketType ticketType) {
+
+        for (FestivalDag fd : festivalDays) {
+            if (ticketType.getNaam().contains("combiticket")) {
+                if (fd.getFestival() == ticketType.getFestival()) {
+                    TicketDag ticketDag = new TicketDag();
+                    ticketDag.setTicketType(ticketType);
+                    ticketDag.setFestivalDag(fd);
+                    ticketDagen.add(ticketDag);
+                } else {
+                    //do nothing
+                }
+            } else {
+                String day = new SimpleDateFormat("EEEE").format(fd.getDate());
+                if (ticketType.getNaam().contains(day) && ticketType.getFestival() == fd.getFestival()) {
+                    TicketDag ticketDag = new TicketDag();
+                    ticketDag.setTicketType(ticketType);
+                    ticketDag.setFestivalDag(fd);
+                    ticketDagen.add(ticketDag);
+                } else {
+                    //do nothing
+                }
+            }
+        }
+
+        for (TicketDag td : ticketDagen) {
+            session.saveOrUpdate(td);
+        }
 
     }
 

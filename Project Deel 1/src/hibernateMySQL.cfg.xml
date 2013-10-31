@@ -38,6 +38,7 @@
         <mapping class="model.TicketDag"/>
         <mapping class="model.TicketType"/>
         <mapping class="model.TicketZone"/>
+        <mapping class="model.TicketVerkoop"/>
         <mapping class="model.Zone"/>
         <mapping class="model.Nummer"/>
         <mapping class="model.Apparatuur"/>
