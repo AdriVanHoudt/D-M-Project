@@ -17,6 +17,7 @@ public class Tracking {
     //1 = IN
     //0 = OUT
     private boolean direction;
+    private int PolsbandId;
 
     @ManyToOne
     @JoinColumn(name = "zoneId", nullable = false)
@@ -45,6 +46,14 @@ public class Tracking {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public int getPolsbandId() {
+        return PolsbandId;
+    }
+
+    public void setPolsbandId(int polsbandId) {
+        PolsbandId = polsbandId;
     }
 
     public Zone getZone() {

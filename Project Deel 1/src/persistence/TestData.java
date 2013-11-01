@@ -525,7 +525,7 @@ public class TestData {
     }
 
     public void generateTrackings(Zone zone) {
-        int month, year, day, hourOfDay, minute, second;
+        int month, year, day, hourOfDay, minute, second, index;
         Boolean isIn;
         Random rand = new Random();
 
@@ -541,6 +541,8 @@ public class TestData {
                 hourOfDay = rand.nextInt(12) + 12;
                 minute = rand.nextInt(60);
                 second = rand.nextInt(60);
+
+                index = rand.nextInt(200);
 
                 GregorianCalendar calendar = new GregorianCalendar(year, month, day, hourOfDay, minute, second);
 
@@ -559,6 +561,7 @@ public class TestData {
                     tracking.setZone(zone);
                     tracking.setTimestamp(new Date(formattedTimeStamp));
                     tracking.setDirection(isIn);
+                    tracking.setPolsbandId(index);
                     trackings.add(tracking);
                 } else {
                     //do nothing
