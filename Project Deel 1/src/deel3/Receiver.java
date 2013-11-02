@@ -28,6 +28,7 @@ import java.lang.Object;
 import java.io.Reader;
 import java.util.List;
 import javax.xml.xpath.XPathExpression;
+import org.jdom.xpath.XPath;
 
 /**
  * Created with IntelliJ IDEA.
@@ -111,9 +112,7 @@ public class Receiver {
     }
 
     public void getTrackingsFromXml() throws JDOMException{
-
-        XPathExpression xPath = XPath.("//Tracking");
-        NodeList list= (NodeList) xPath.evaluate(openXML("trackings.xml"), XPathConstants.NODESET);
+        XPath xPath = XPath.newInstance("//Tracking");
         List<Element> trackings = xPath.selectNodes(openXML("trackings.xml"));
 
         for(Element e : trackings){
