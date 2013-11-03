@@ -5,11 +5,9 @@ import model.Zone;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.hibernate.*;
 import org.jdom.Attribute;
-import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 import org.jdom.xpath.XPath;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import javax.jms.*;
@@ -25,26 +23,13 @@ import java.io.IOException;
 import java.io.StringReader;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPathConstants;
 import java.io.File;
-import java.lang.Object;
-import java.io.Reader;
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
-import javax.xml.xpath.XPathExpression;
-import org.jdom.xpath.XPath;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 
-
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 2/11/13
- * Time: 18:21
- * To change this template use File | Settings | File Templates.
- */
 public class Receiver {
 
     private static org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -139,8 +124,8 @@ public class Receiver {
             tracking.setPolsbandId(Integer.parseInt(trackingPolsbandIds.get(i).getValue()));
             tracking.setDirection(Boolean.parseBoolean(trackingTypes.get(i).getValue()));
             try{
-                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
-                d = sdf.parse(trackingTimestamps.get(i).getValue());
+                String string = trackingTimestamps.get(i).getValue();
+                d = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzzz yyyy", Locale.ENGLISH).parse(string);
             }catch(ParseException e){
                 e.printStackTrace();
             }
