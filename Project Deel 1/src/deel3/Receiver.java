@@ -1,5 +1,7 @@
 package deel3;
 
+import model.Tracking;
+import model.Zone;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.hibernate.*;
 import org.jdom.Element;
@@ -26,9 +28,12 @@ import javax.xml.xpath.XPathConstants;
 import java.io.File;
 import java.lang.Object;
 import java.io.Reader;
+import java.util.Date;
 import java.util.List;
 import javax.xml.xpath.XPathExpression;
 import org.jdom.xpath.XPath;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  * Created with IntelliJ IDEA.
@@ -112,11 +117,27 @@ public class Receiver {
     }
 
     public void getTrackingsFromXml() throws JDOMException{
-        XPath xPath = XPath.newInstance("//Tracking");
-        List<Element> trackings = xPath.selectNodes(openXML("trackings.xml"));
+        XPath xPath = XPath.newInstance("//@zone");
+        List<Element> trackingZones = xPath.selectNodes(openXML("trackings.xml"));
 
-        for(Element e : trackings){
-            session.saveOrUpdate(e);
+        xPath = XPath.newInstance("//@timestamp");
+        List<Element> trackingTimestamps = xPath.selectNodes(openXML("trackings.xml"));
+
+        xPath = XPath.newInstance("//@polsbandId");
+        List<Element> trackingPolsbandIds = xPath.selectNodes(openXML("trackings.xml"));
+
+        xPath = XPath.newInstance("//@type");
+        List<Element> trackingTypes = xPath.selectNodes(openXML("trackings.xml"));
+
+        for(int i = 0; i < trackingZones.size(); i++){
+            Tracking tracking = new Tracking();
+            tracking.setPolsbandId(Integer.parseInt(trackingPolsbandIds.get(i).getValue()));
+            tracking.setDirection(Boolean.parseBoolean(trackingTypes.get(i).getValue()));
+            tracking.setTimestamp(new Date(trackingTimestamps.get(i).getValue()));
+            Query getZones = session.createQuery("from Zone where id = " + Integer.parseInt(trackingZones.get(i).getValue()));
+            List<Zone> zones = getZones.list();
+            tracking.setZone(zones.get(0));
+            session.saveOrUpdate(tracking);
         }
         tx.commit();
     }
