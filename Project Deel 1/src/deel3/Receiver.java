@@ -1,5 +1,8 @@
 package deel3;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
 import model.Tracking;
 import model.Zone;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -24,20 +27,25 @@ import java.io.StringReader;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
-import java.util.Date;
-import java.util.List;
+import java.net.UnknownHostException;
+import java.util.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class Receiver {
 
     private static org.hibernate.Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     private static Transaction tx = session.beginTransaction();
 
+    List<Attribute> trackingZones = new ArrayList<>() ;
+    List<Attribute> trackingTimestamps = new ArrayList<>() ;
+    List<Attribute> trackingPolsbandIds = new ArrayList<>() ;
+    List<Attribute> trackingTypes = new ArrayList<>() ;
+
     public static void main(String[] args)throws JMSException {
         Receiver r = new Receiver();
         r.receiveTrackings();
+        r.connectToMongoDB();
     }
 
     public void stringToDom(String xmlSource){
@@ -108,16 +116,16 @@ public class Receiver {
         Date d = new Date();
 
         XPath xPath = XPath.newInstance("//@zone");
-        List<Attribute> trackingZones = xPath.selectNodes(openXML("trackings.xml"));
+        trackingZones = xPath.selectNodes(openXML("trackings.xml"));
 
         xPath = XPath.newInstance("//@timestamp");
-        List<Attribute> trackingTimestamps = xPath.selectNodes(openXML("trackings.xml"));
+        trackingTimestamps = xPath.selectNodes(openXML("trackings.xml"));
 
         xPath = XPath.newInstance("//@polsbandId");
-        List<Attribute> trackingPolsbandIds = xPath.selectNodes(openXML("trackings.xml"));
+        trackingPolsbandIds = xPath.selectNodes(openXML("trackings.xml"));
 
         xPath = XPath.newInstance("//@type");
-        List<Attribute> trackingTypes = xPath.selectNodes(openXML("trackings.xml"));
+        trackingTypes = xPath.selectNodes(openXML("trackings.xml"));
 
         for(int i = 0; i < trackingZones.size(); i++){
             Tracking tracking = new Tracking();
@@ -133,9 +141,9 @@ public class Receiver {
             Query getZones = session.createQuery("from Zone where id = " + Integer.parseInt(trackingZones.get(i).getValue()));
             List<Zone> zones = getZones.list();
             tracking.setZone(zones.get(0));
-            session.saveOrUpdate(tracking);
+          //  session.saveOrUpdate(tracking);
         }
-        tx.commit();
+       // tx.commit();
     }
 
     public static org.jdom.Document openXML(String bestaandsNaam){
@@ -152,6 +160,23 @@ public class Receiver {
 
 
         return null;
+    }
+
+    public void connectToMongoDB() throws UnknownHostException{
+        MongoConnection mc = new MongoConnection();
+        DB db = mc.mongoClient.getDB("project");
+        TreeSet<Attribute> setTrackingPolsbandIds = new TreeSet<Attribute>(trackingPolsbandIds);
+
+        DBCollection coll = db.getCollection("project");
+        //collection leegmaken
+        coll.drop();
+
+        BasicDBObject tracking = new BasicDBObject("name", "trackings").
+                append("type", "database").
+                append("count", 1).
+                append("info", new BasicDBObject("x", 203).append("y", 102));
+
+
     }
 
 }
