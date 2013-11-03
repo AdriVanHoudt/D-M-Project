@@ -139,7 +139,7 @@ public class Receiver {
             tracking.setPolsbandId(Integer.parseInt(trackingPolsbandIds.get(i).getValue()));
             tracking.setDirection(Boolean.parseBoolean(trackingTypes.get(i).getValue()));
             try{
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
+                SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy");
                 d = sdf.parse(trackingTimestamps.get(i).getValue());
             }catch(ParseException e){
                 e.printStackTrace();
