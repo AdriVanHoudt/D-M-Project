@@ -4,6 +4,7 @@ import model.Tracking;
 import model.Zone;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.hibernate.*;
+import org.jdom.Attribute;
 import org.jdom.Element;
 import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
@@ -28,12 +29,14 @@ import javax.xml.xpath.XPathConstants;
 import java.io.File;
 import java.lang.Object;
 import java.io.Reader;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 import javax.xml.xpath.XPathExpression;
 import org.jdom.xpath.XPath;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -117,23 +120,31 @@ public class Receiver {
     }
 
     public void getTrackingsFromXml() throws JDOMException{
+        Date d = new Date();
+
         XPath xPath = XPath.newInstance("//@zone");
-        List<Element> trackingZones = xPath.selectNodes(openXML("trackings.xml"));
+        List<Attribute> trackingZones = xPath.selectNodes(openXML("trackings.xml"));
 
         xPath = XPath.newInstance("//@timestamp");
-        List<Element> trackingTimestamps = xPath.selectNodes(openXML("trackings.xml"));
+        List<Attribute> trackingTimestamps = xPath.selectNodes(openXML("trackings.xml"));
 
         xPath = XPath.newInstance("//@polsbandId");
-        List<Element> trackingPolsbandIds = xPath.selectNodes(openXML("trackings.xml"));
+        List<Attribute> trackingPolsbandIds = xPath.selectNodes(openXML("trackings.xml"));
 
         xPath = XPath.newInstance("//@type");
-        List<Element> trackingTypes = xPath.selectNodes(openXML("trackings.xml"));
+        List<Attribute> trackingTypes = xPath.selectNodes(openXML("trackings.xml"));
 
         for(int i = 0; i < trackingZones.size(); i++){
             Tracking tracking = new Tracking();
             tracking.setPolsbandId(Integer.parseInt(trackingPolsbandIds.get(i).getValue()));
             tracking.setDirection(Boolean.parseBoolean(trackingTypes.get(i).getValue()));
-            tracking.setTimestamp(new Date(trackingTimestamps.get(i).getValue()));
+            try{
+                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss z");
+                d = sdf.parse(trackingTimestamps.get(i).getValue());
+            }catch(ParseException e){
+                e.printStackTrace();
+            }
+            tracking.setTimestamp(d);
             Query getZones = session.createQuery("from Zone where id = " + Integer.parseInt(trackingZones.get(i).getValue()));
             List<Zone> zones = getZones.list();
             tracking.setZone(zones.get(0));
