@@ -39,8 +39,17 @@ public class TestData {
     public static void main(String[] args) {
         TestData td = new TestData();
         td.generateFestivals();
+        tx.commit();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
         td.generateArtists();
+        tx.commit();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
         td.generateOptredens();
+        tx.commit();
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
         td.generateFestivalgangers();
         tx.commit();
     }
@@ -156,7 +165,7 @@ public class TestData {
             zones.add(zone);
             generateApparatuur(zone);
             generateFaciliteiten(zone);
-            generateTrackings(zone);
+            //generateTrackings(zone);
         }
         for (Zone z : zones) {
             session.saveOrUpdate(z);
