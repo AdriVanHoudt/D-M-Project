@@ -34,24 +34,37 @@ public class TestData {
     private static Transaction tx = session.beginTransaction();
 
     private int aantalTickets = 0;
-    private int aantalOnlineTickets = 0;
 
     public static void main(String[] args) {
         TestData td = new TestData();
         td.generateFestivals();
         tx.commit();
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         tx = session.beginTransaction();
         td.generateArtists();
         tx.commit();
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         tx = session.beginTransaction();
         td.generateOptredens();
         tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        td.generateTicketType();
+        tx.commit();
+
         session = HibernateUtil.getSessionFactory().getCurrentSession();
         tx = session.beginTransaction();
         td.generateFestivalgangers();
         tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        td.generateTrackings();
+        tx.commit();
+
     }
 
 
@@ -70,7 +83,7 @@ public class TestData {
             endMonth = month;
             endYear = year;
             //willekeurige einddatum -> willekeurig aantal festivaldagen
-            endDay = day + rand.nextInt(4) + 1;
+            endDay = day + rand.nextInt(2) + 1;
 
             GregorianCalendar calendarStart = new GregorianCalendar(year, month, day);
             GregorianCalendar calendarEnd = new GregorianCalendar(endYear, endMonth, endDay);
@@ -104,7 +117,7 @@ public class TestData {
     }
 
     public void generateFestivalDag(Festival festival) {
-        Date newDate = new Date();
+        Date newDate;
         DateTime start = new DateTime(festival.getStartDate());
         DateTime end = new DateTime(festival.getEndDate());
         //berekent het aantal dagen per festival er zijn
@@ -137,35 +150,25 @@ public class TestData {
     }
 
     public void generateZone(Festival festival) {
-        String[] zoneNames = {"Inkom", "VIP ruimte", "VIP ruimte Mainstage", "Backstage ruimte", "Sanitair Mainstage", "Sanitair Red Bull",
-                "Camping", "Mainstage", "Festivalterrein Mainstage", "Red Bull Stage", "Festivalterrein Red Bull Stage", "The Barn",
-                "Festivalterrein The Barn", "Klub C", "Festivalterrein Klub C", "Red Light Disctrict", "Festivalterrein Red Light District"};
+        String[] zoneNames = {"Inkom", "VIP ruimte", "VIP ruimte Mainstage", "Sanitair Mainstage", "Sanitair Red Bull",
+                "Camping", "Mainstage", "Festivalterrein Mainstage", "Red Bull Stage", "Festivalterrein Red Bull Stage"};
 
-        Random rand = new Random();
-
-        for (int i = 0; i < zoneNames.length; i++) {
+        for (String zoneName : zoneNames) {
             Zone zone = new Zone();
-            zone.setNaam(zoneNames[i]);
+            zone.setNaam(zoneName);
             zone.setFestival(festival);
             //hier wordt de foreign key naar zichzelf gevuld.
-            if (zoneNames[i].contains("Festivalterrein")) {
+            if (zoneName.contains("Festivalterrein")) {
                 zone.setCapaciteit(3000);
                 zone.setZone(zones.get(zones.size() - 1));
-                //test
-                // System.out.println(zone.getZone().getNaam());
+
             } else {
                 zone.setCapaciteit(100);
             }
 
-            //test
-            /* System.out.println(zone.getFestival().getName());
-           System.out.println(zone.getNaam()); */
-
-
             zones.add(zone);
             generateApparatuur(zone);
             generateFaciliteiten(zone);
-            //generateTrackings(zone);
         }
         for (Zone z : zones) {
             session.saveOrUpdate(z);
@@ -221,26 +224,27 @@ public class TestData {
         Random rand = new Random();
         List<Zone> podia = new ArrayList<>();
 
-        //hier worden de podiums uit de zones gehaald. omdat er bepaalde zones zijn waar geen optreden gedaan wordt
-        for (Zone z : zones) {
-            if (z.getNaam().contains("Festivalterrein")) {
-                podia.add(z);
-            }
-        }
         //lus voor alle festivaldagen
         for (FestivalDag fd : festivalDays) {
+            podia.clear();
+            for (Zone z : zones) {
+                if (z.getNaam().contains("Festivalterrein") && z.getFestival() == fd.getFestival()) {
+                    podia.add(z);
+                }
+            }
+
             //lus voor alle podia per festivaldag
-            for (int i = 0; i < podia.size(); i++) {
+            for (Zone aPodia : podia) {
                 Date optredenTime = fd.getDate();
                 //6 optredens per podia per festivaldag
-                for (int j = 0; j < 6; j++) {
+                for (int j = 0; j < 8; j++) {
                     Optreden optreden = new Optreden();
                     optreden.setFestivalDag(fd);
                     //willekeurige artiest voor een optreden
                     int index = rand.nextInt(artists.size());
                     Artiest randomArtist = artists.get(index);
                     //set de zone voor een optreden
-                    optreden.setZone(podia.get(i).getZone());
+                    optreden.setZone(aPodia.getZone());
                     //de startdatum van een optreden
                     optreden.setStartTime(optredenTime);
                     Calendar cal = Calendar.getInstance();
@@ -465,8 +469,6 @@ public class TestData {
             faciliteiten.add(faciliteit17);
             faciliteiten.add(faciliteit18);
             faciliteiten.add(faciliteit19);
-        } else {
-            //do nothing
         }
 
 
@@ -481,7 +483,7 @@ public class TestData {
         Random rand = new Random();
         int index = rand.nextInt(6);
         Faciliteit kleedkamerFaciliteit = new Faciliteit();
-        Date begin = new Date();
+        Date begin;
 
         for (Faciliteit f : faciliteiten) {
             if (f.getType().contains("Kleedkamer")) {
@@ -512,9 +514,9 @@ public class TestData {
     public void generatePersorgaan() {
         String[] persNamen = {"JIM TV", "TMF", "MTV", "HLN", "GVA"};
 
-        for (int i = 0; i < persNamen.length; i++) {
+        for (String aPersNamen : persNamen) {
             PersOrgaan persOrgaan = new PersOrgaan();
-            persOrgaan.setNaam(persNamen[i]);
+            persOrgaan.setNaam(aPersNamen);
             persOrganen.add(persOrgaan);
         }
     }
@@ -537,57 +539,62 @@ public class TestData {
         }
     }
 
-    public void generateTrackings(Zone zone) {
-        int month, year, day, hourOfDay, minute, second, index;
+    public void generateTrackings() {
+        int month, year, day, hourOfDay, minute, second;
         Boolean isIn;
         Random rand = new Random();
         List<Integer> polsbandjes = new ArrayList<>();
 
-        index = rand.nextInt(8) + 8;
+        //per polsband 10 x zone x aantal dagen
 
         for (int i = 0; i < 750; i++) {
             polsbandjes.add(i);
         }
 
-        for (FestivalDag fd : festivalDays) {
-            for (Integer p : polsbandjes) {
-                for (int i = 0; i < index; i++) {
+        for (int bandje : polsbandjes) {
+            for (int i = 0; i < 10; i++) {
+                for (Zone z : zones) {
+                    if (z.getFestival() == festivals.get(0) && !z.getNaam().contains("Stage")) {
+                        for (FestivalDag dag : festivalDays) {
+                            if (dag.getFestival() == festivals.get(0)) {
 
-                    Calendar cal = Calendar.getInstance();
-                    cal.setTime(fd.getDate());
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(dag.getDate());
 
-                    month = cal.get(Calendar.MONTH);
-                    year = cal.get(Calendar.YEAR);
-                    day = cal.get(Calendar.DAY_OF_MONTH);
-                    hourOfDay = rand.nextInt(12) + 12;
-                    minute = rand.nextInt(60);
-                    second = rand.nextInt(60);
+                                month = cal.get(Calendar.MONTH);
+                                year = cal.get(Calendar.YEAR);
+                                day = cal.get(Calendar.DAY_OF_MONTH);
+                                hourOfDay = rand.nextInt(12) + 12;
+                                minute = rand.nextInt(60);
+                                second = rand.nextInt(60);
 
-                    GregorianCalendar calendar = new GregorianCalendar(year, month, day, hourOfDay, minute, second);
+                                GregorianCalendar calendar = new GregorianCalendar(year, month, day, hourOfDay, minute, second);
 
-                    Date timestamp = calendar.getTime();
+                                Date timestamp = calendar.getTime();
 
-                    String formattedTimeStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timestamp);
+                                String formattedTimeStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timestamp);
 
-                    if (i % 2 == 0) {
-                        isIn = false;
-                    } else {
-                        isIn = true;
-                    }
+                                if (i % 2 == 0) {
+                                    isIn = false;
+                                } else {
+                                    isIn = true;
+                                }
 
-                    if (timestamp.before(new Date())) {
-                        Tracking tracking = new Tracking();
-                        tracking.setZone(zone);
-                        tracking.setTimestamp(new Date(formattedTimeStamp));
-                        tracking.setDirection(isIn);
-                        tracking.setPolsbandId(p);
-                        trackings.add(tracking);
-                    } else {
-                        //do nothing
+                                if (timestamp.before(new Date())) {
+                                    Tracking tracking = new Tracking();
+                                    tracking.setZone(z);
+                                    tracking.setTimestamp(new Date(formattedTimeStamp));
+                                    tracking.setDirection(isIn);
+                                    tracking.setPolsbandId(bandje);
+                                    trackings.add(tracking);
+                                }
+                            }
+                        }
                     }
                 }
             }
         }
+
 
         for (Tracking t : trackings) {
             session.saveOrUpdate(t);
@@ -620,9 +627,9 @@ public class TestData {
                 "Ralph Rivera", "Philip Lewis", "Michelle Allen", "Nicholas Harris", "Lillian Young", "John Moore", "Frances Wright", "Jean Garcia", "James Brooks", "Bonnie Cox",
                 "Janet Torres", "Carolyn Robinson", "Martha Peterson", "Patricia Gray", "Shawn Price", "Jerry King", "Victor Huysmans"};
 
-        for (int i = 0; i < names.length; i++) {
+        for (String name : names) {
             FestivalGanger festivalGanger = new FestivalGanger();
-            festivalGanger.setNaam(names[i]);
+            festivalGanger.setNaam(name);
             festivalGangers.add(festivalGanger);
             generateTicketVerkoop(festivalGanger);
         }
@@ -645,7 +652,7 @@ public class TestData {
         ticketVerkoop.setFestival(festivals.get(index));
         ticketVerkoop.setType(types[indexType]);
         ticketVerkopen.add(ticketVerkoop);
-        generateTicketType();
+
         generateTickets(ticketVerkoop);
 
         for (TicketVerkoop tv : ticketVerkopen) {
@@ -654,12 +661,12 @@ public class TestData {
     }
 
     public void generateTicketType() {
-        String naamRegular = "";
-        String naamVIP = "";
-        String naamPers = "";
-        int prijsRegular = 0;
-        int prijsVIP = 0;
-        int prijsPers = 0;
+        String naamRegular;
+        String naamVIP;
+        String naamPers;
+        int prijsRegular;
+        int prijsVIP;
+        int prijsPers;
 
         Random rand = new Random();
 
