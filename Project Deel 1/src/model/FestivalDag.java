@@ -20,10 +20,13 @@ public class FestivalDag {
 
     private Date date;
 
+    private Integer aantalBeschikbareTickets;
+
     @ManyToOne
     @JoinColumn(name = "festivalId", nullable = false)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Festival festival;
+
 
     public FestivalDag() {
     }
@@ -42,6 +45,14 @@ public class FestivalDag {
 
     public Festival getFestival() {
         return festival;
+    }
+
+    public Integer getAantalBeschikbareTickets() {
+        return aantalBeschikbareTickets;
+    }
+
+    public void setAantalBeschikbareTickets(Integer aantalBeschikbareTickets) {
+        this.aantalBeschikbareTickets = aantalBeschikbareTickets;
     }
 
     public void setFestival(Festival festival) {

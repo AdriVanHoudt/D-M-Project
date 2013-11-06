@@ -35,6 +35,9 @@ public class TestData {
     private static Session session = HibernateUtil.getSessionFactory().getCurrentSession();
     private static Transaction tx = session.beginTransaction();
 
+    private int aantalTickets = 0;
+    private int aantalOnlineTickets = 0;
+
     public static void main(String[] args) {
         TestData td = new TestData();
         td.generateFestivals();
@@ -46,11 +49,12 @@ public class TestData {
 
 
     public void generateFestivals() {
-        String[] festivalNames = {"Rock Werchter", "Pukkelpop", "Tomorrowland", "Reggea Geel", "Dour"};
-        String[] festivalLocations = {"Werchter", "Kiewit", "Boom", "Geel", "Henegouwen"};
+        String[] festivalNames = {"Rock Werchter", "Pukkelpop", "Tomorrowland", "Reggea Geel", "Dour", "Gentse Feesten",
+                "I Love Techno", "Laundry Day", "TW Classic", "Summerfestival"};
+        String[] festivalLocations = {"Werchter", "Kiewit", "Boom", "Geel", "Henegouwen", "Gent", "Gent", "Antwerpen", "Werchter", "Antwerpen"};
         int month, year, day, endMonth, endYear, endDay;
         Random rand = new Random();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 10; i++) {
 
             month = rand.nextInt(11);
             year = rand.nextInt(5) + 2011;
@@ -112,6 +116,8 @@ public class TestData {
             String formattedDate = new SimpleDateFormat("MM/dd/yyyy 12:mm:ss").format(newDate);
 
             festivalDag.setDate(new Date(formattedDate));
+
+            festivalDag.setAantalBeschikbareTickets(7500);
 
             festivalDays.add(festivalDag);
 
@@ -528,43 +534,50 @@ public class TestData {
         int month, year, day, hourOfDay, minute, second, index;
         Boolean isIn;
         Random rand = new Random();
+        List<Integer> polsbandjes = new ArrayList<>();
+
+        index = rand.nextInt(8) + 8;
+
+        for (int i = 0; i < 7500; i++) {
+            polsbandjes.add(i);
+        }
 
         for (FestivalDag fd : festivalDays) {
-            for (int i = 0; i < 1000; i++) {
+            for (Integer p : polsbandjes) {
+                for (int i = 0; i < index; i++) {
 
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(fd.getDate());
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(fd.getDate());
 
-                month = cal.get(Calendar.MONTH);
-                year = cal.get(Calendar.YEAR);
-                day = cal.get(Calendar.DAY_OF_MONTH);
-                hourOfDay = rand.nextInt(12) + 12;
-                minute = rand.nextInt(60);
-                second = rand.nextInt(60);
+                    month = cal.get(Calendar.MONTH);
+                    year = cal.get(Calendar.YEAR);
+                    day = cal.get(Calendar.DAY_OF_MONTH);
+                    hourOfDay = rand.nextInt(12) + 12;
+                    minute = rand.nextInt(60);
+                    second = rand.nextInt(60);
 
-                index = rand.nextInt(200);
+                    GregorianCalendar calendar = new GregorianCalendar(year, month, day, hourOfDay, minute, second);
 
-                GregorianCalendar calendar = new GregorianCalendar(year, month, day, hourOfDay, minute, second);
+                    Date timestamp = calendar.getTime();
 
-                Date timestamp = calendar.getTime();
+                    String formattedTimeStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timestamp);
 
-                String formattedTimeStamp = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(timestamp);
+                    if (i % 2 == 0) {
+                        isIn = false;
+                    } else {
+                        isIn = true;
+                    }
 
-                if(i % 2 == 0) {
-                    isIn = false;
-                } else {
-                    isIn = true;
-                }
-
-                if (timestamp.before(new Date())) {
-                    Tracking tracking = new Tracking();
-                    tracking.setZone(zone);
-                    tracking.setTimestamp(new Date(formattedTimeStamp));
-                    tracking.setDirection(isIn);
-                    tracking.setPolsbandId(index);
-                    trackings.add(tracking);
-                } else {
-                    //do nothing
+                    if (timestamp.before(new Date())) {
+                        Tracking tracking = new Tracking();
+                        tracking.setZone(zone);
+                        tracking.setTimestamp(new Date(formattedTimeStamp));
+                        tracking.setDirection(isIn);
+                        tracking.setPolsbandId(p);
+                        trackings.add(tracking);
+                    } else {
+                        //do nothing
+                    }
                 }
             }
         }
@@ -731,22 +744,26 @@ public class TestData {
     public void generateTickets(TicketVerkoop ticketVerkoop) {
         Random rand = new Random();
 
-        int index = (int) (Math.random() * 3) + 1;
-
-        for (int i = 0; i < index; i++) {
-            int indexType = rand.nextInt(ticketTypes.size());
-            int indexPers = rand.nextInt(persOrganen.size());
-
-            if (ticketTypes.get(indexType).getNaam().contains(ticketVerkoop.getFestival().getName())) {
-                Ticket ticket = new Ticket();
-                ticket.setTicketVerkoop(ticketVerkoop);
-                ticket.setTicketType(ticketTypes.get(indexType));
-                if (ticketTypes.get(indexType).getNaam().contains("Pers")) {
-                    ticket.setPersOrgaan(persOrganen.get(indexPers));
+        for (FestivalDag fd : festivalDays) {
+            for (int i = 0; i < 38; i++) {
+                if (aantalTickets < fd.getAantalBeschikbareTickets()) {
+                    int indexType = rand.nextInt(ticketTypes.size());
+                    int indexPers = rand.nextInt(persOrganen.size());
+                    if (ticketTypes.get(indexType).getNaam().contains(fd.getFestival().getName())) {
+                        Ticket ticket = new Ticket();
+                        ticket.setTicketVerkoop(ticketVerkoop);
+                        ticket.setTicketType(ticketTypes.get(indexType));
+                        if (ticketTypes.get(indexType).getNaam().contains("Pers")) {
+                            ticket.setPersOrgaan(persOrganen.get(indexPers));
+                        }
+                        tickets.add(ticket);
+                        aantalTickets++;
+                    } else {
+                        i--;
+                    }
+                } else {
+                    System.out.println("Tickets voor het festival " + fd.getFestival().getName() + " op dag " + fd.getDate() + " zijn uitverkocht !");
                 }
-                tickets.add(ticket);
-            } else {
-                i--;
             }
         }
 
