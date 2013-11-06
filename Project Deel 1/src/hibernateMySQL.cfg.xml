@@ -22,7 +22,7 @@
         <property name="format_sql">false</property>
         <property name="use_sql_comments">false</property>
 
-        <property name="hbm2ddl.auto">update</property>
+        <property name="hbm2ddl.auto">create-drop</property>
 
         <!-- Reference to all the mapping files used -->
         <!-- <mapping resource="persistence/Song.hbm.xml"/>    -->

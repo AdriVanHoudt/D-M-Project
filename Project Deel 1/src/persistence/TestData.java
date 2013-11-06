@@ -693,9 +693,9 @@ public class TestData {
             ticketTypes.add(vipTicketType);
             ticketTypes.add(persTicketType);
 
-            generateTicketZones(regularTicketType);
-            generateTicketZones(vipTicketType);
-            generateTicketZones(persTicketType);
+            generateTicketZones(regularTicketType, fd.getFestival());
+            generateTicketZones(vipTicketType, fd.getFestival());
+            generateTicketZones(persTicketType, fd.getFestival());
 
             generateTicketDag(regularTicketType);
             generateTicketDag(vipTicketType);
@@ -732,9 +732,9 @@ public class TestData {
             ticketTypes.add(vipTicketType);
             ticketTypes.add(persTicketType);
 
-            generateTicketZones(regularTicketType);
-            generateTicketZones(vipTicketType);
-            generateTicketZones(persTicketType);
+            generateTicketZones(regularTicketType, f);
+            generateTicketZones(vipTicketType, f);
+            generateTicketZones(persTicketType, f);
 
             generateTicketDag(regularTicketType);
             generateTicketDag(vipTicketType);
@@ -781,21 +781,19 @@ public class TestData {
 
     }
 
-    public void generateTicketZones(TicketType ticketType) {
+    public void generateTicketZones(TicketType ticketType, Festival festival) {
         if (ticketType.getNaam().contains("Regular")) {
             for (Zone z : zones) {
-                if (z.getNaam().contains("Inkom") || z.getNaam().contains("Camping") || z.getNaam().contains("Festivalterrein")) {
+                if ((z.getNaam().contains("Inkom") || z.getNaam().contains("Camping") || z.getNaam().contains("Festivalterrein")) && z.getFestival() == festival) {
                     TicketZone ticketZone = new TicketZone();
                     ticketZone.setTicketType(ticketType);
                     ticketZone.setZone(z);
                     ticketZones.add(ticketZone);
-                } else {
-                    //de nothing
                 }
             }
         } else if (ticketType.getNaam().contains("VIP")) {
             for (Zone z : zones) {
-                if (z.getNaam().contains("Inkom") || z.getNaam().contains("Camping") || z.getNaam().contains("Festivalterrein") || z.getNaam().contains("VIP")) {
+                if ((z.getNaam().contains("Inkom") || z.getNaam().contains("Camping") || z.getNaam().contains("Festivalterrein") || z.getNaam().contains("VIP")) && z.getFestival() == festival) {
                     TicketZone ticketZone = new TicketZone();
                     ticketZone.setTicketType(ticketType);
                     ticketZone.setZone(z);
@@ -804,10 +802,12 @@ public class TestData {
             }
         } else {
             for (Zone z : zones) {
-                TicketZone ticketZone = new TicketZone();
-                ticketZone.setTicketType(ticketType);
-                ticketZone.setZone(z);
-                ticketZones.add(ticketZone);
+                if (z.getFestival() == festival) {
+                    TicketZone ticketZone = new TicketZone();
+                    ticketZone.setTicketType(ticketType);
+                    ticketZone.setZone(z);
+                    ticketZones.add(ticketZone);
+                }
             }
         }
 
