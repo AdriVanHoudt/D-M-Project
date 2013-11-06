@@ -6,6 +6,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -17,7 +20,7 @@ public class Main {
     static Transaction tx = session.beginTransaction();
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         Main me = new Main();
         me.runConsole();
         tx.commit();
@@ -25,7 +28,7 @@ public class Main {
 
 
     //start console app
-    private void runConsole() {
+    private void runConsole() throws ParseException {
         //init menu
         int menu = getOptionMainMenu();
         while (menu != 5) {
@@ -156,9 +159,50 @@ public class Main {
                     break;
                 case 4:
                     //TODO zoeken festival
-                    //get artiest
+                    //get artiests
+                    Query getArtiests = session.createQuery("from Artiest");
+                    List artiests = getArtiests.list();
+
+                    System.out.println("Kies je artiest");
+                    for (int i = 0; i < artiests.size(); i++) {
+                        System.out.print((i + 1) + ": ");
+                        System.out.println(((Artiest) artiests.get(i - 1)).getNaam());
+                    }
+
+                    int artiestPick = scanner.nextInt();
+                    if (scanner.hasNext()) scanner.next();
+
                     //get dates
+                    SimpleDateFormat df = new SimpleDateFormat("mm/dd/yyyy");
+                    System.out.println("Geef datum 1 (mm/dd/yyyy):");
+                    String date1 = scanner.next();
+                    System.out.println("Geeft datum 2 (mm/dd/yyyy)");
+                    String date2 = scanner.next();
+
+                    Date d1 = df.parse(date1.trim());
+                    Date d2 = df.parse(date2.trim());
+
                     //get festivals
+                    Query getFestivalDaysFromArtiest = session.createQuery("select o.festivalDag from Optreden o where o.artiest = : artiest ");
+                    getFestivalDaysFromArtiest.setParameter("artiest", artiests.get(artiestPick - 1));
+
+                    List festivaldays = getFestivalDaysFromArtiest.list();
+                    List<Festival> festivals = new ArrayList();
+
+                    System.out.println("Festivals: ");
+
+                    for (int i = 0; i < festivaldays.size(); i++) {
+                        FestivalDag festivalday = (FestivalDag) festivaldays.get(i);
+                        Query getFestivals = session.createQuery("select fd.festival from FestivalDag fd, Optreden o where fd = : festivaldag AND fd.date BETWEEN : date1 AND : date2");
+                        getFestivals.setParameter("festivaldag", festivalday);
+                        getFestivals.setDate("date1", d1);
+                        getFestivals.setDate("date2", d2);
+                        for(Object f : getFestivals.list()){
+                            System.out.println(((Festival) f).getName());
+                        }
+                    }
+
+
                     break;
             }
 

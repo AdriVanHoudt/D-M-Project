@@ -1,12 +1,10 @@
 package persistence;
 
 import model.*;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import persistence.HibernateUtil;
+import org.joda.time.DateTime;
+import org.joda.time.Days;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -793,8 +791,6 @@ public class TestData {
                     ticketZone.setTicketType(ticketType);
                     ticketZone.setZone(z);
                     ticketZones.add(ticketZone);
-                } else {
-                    //de nothing
                 }
             }
         } else {
@@ -820,27 +816,25 @@ public class TestData {
                     ticketDag.setTicketType(ticketType);
                     ticketDag.setFestivalDag(fd);
                     ticketDagen.add(ticketDag);
+
                 } else {
-                    //do nothing
+                    String day = new SimpleDateFormat("EEEE").format(fd.getDate());
+                    if (ticketType.getNaam().contains(day) && ticketType.getFestival() == fd.getFestival()) {
+                        TicketDag ticketDag = new TicketDag();
+                        ticketDag.setTicketType(ticketType);
+                        ticketDag.setFestivalDag(fd);
+                        ticketDagen.add(ticketDag);
+
+                    }
                 }
-            } else {
-                String day = new SimpleDateFormat("EEEE").format(fd.getDate());
-                if (ticketType.getNaam().contains(day) && ticketType.getFestival() == fd.getFestival()) {
-                    TicketDag ticketDag = new TicketDag();
-                    ticketDag.setTicketType(ticketType);
-                    ticketDag.setFestivalDag(fd);
-                    ticketDagen.add(ticketDag);
-                } else {
-                    //do nothing
+
+                for (TicketDag td : ticketDagen) {
+                    session.saveOrUpdate(td);
                 }
+
             }
-        }
 
-        for (TicketDag td : ticketDagen) {
-            session.saveOrUpdate(td);
-        }
 
+        }
     }
-
-
 }
