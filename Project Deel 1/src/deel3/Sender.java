@@ -11,13 +11,6 @@ import javax.jms.Session;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-/**
- * Created with IntelliJ IDEA.
- * User: User
- * Date: 1/11/13
- * Time: 17:02
- * To change this template use File | Settings | File Templates.
- */
 public class Sender {
     private List<Tracking> trackings = new ArrayList<>();
     org.hibernate.Session sessionHibernate = HibernateUtil.getSessionFactory().getCurrentSession();
@@ -70,8 +63,6 @@ public class Sender {
                     tracking.setDirection(isIn);
                     tracking.setPolsbandId(index);
                     trackings.add(tracking);
-                } else {
-                    //do nothing
                 }
             }
         }

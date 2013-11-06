@@ -18,7 +18,7 @@ public class TicketZone {
     private TicketType ticketType;
 
     @ManyToOne
-    @JoinColumn(name = "zoneId", nullable = false)
+    @JoinColumn(name = "zoneId", nullable = true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Zone zone;
 
