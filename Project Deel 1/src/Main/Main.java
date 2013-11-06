@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,17 +14,14 @@ import java.util.Scanner;
 public class Main {
 
     Scanner scanner = new Scanner(System.in);
-    Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    static Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+    static Transaction tx = session.beginTransaction();
 
 
-    public static void main(String[] args) throws ParseException {
-        // gewoon omdat hibernate dan zijn ding doet
-        Nummer nr = new Nummer();
-
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Transaction tx = session.beginTransaction();
-
-        session.saveOrUpdate(nr);
+    public static void main(String[] args) {
+        Main me = new Main();
+        me.runConsole();
+        tx.commit();
     }
 
 
@@ -129,7 +125,7 @@ public class Main {
             //gives the menu again
             menu = getOptionMainMenu();
         }
-        System.exit(0);
+        return;
     }
 
     private int getOptionMainMenu() {
@@ -142,8 +138,10 @@ public class Main {
         System.out.println("3: Zoeken otreden");
         System.out.println("4: Zoeken festival");
         System.out.println("5: Stoppen");
+        int result = scanner.nextInt();
+        if (scanner.hasNext()) scanner.next();
 
-        return scanner.nextInt();
+        return result;
     }
 
 }

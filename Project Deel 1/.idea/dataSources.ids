@@ -1995,6 +1995,15 @@
       <column name="naam" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="FK_ooxg5s3fb8rxg05pwjiy3515d" table="t_optreden" schema="" catalog="project" columns="artiestId"/>
+      <exported-key name="FK_9arxsxm9c1bqrt0kxxd4c8m4k" table="t_perstoelating" schema="" catalog="project" columns="artiestId"/>
+    </table>
+    <table name="t_faciliteit" schema="" catalog="project" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="type" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_6sf8cclrq399rf9dg4rxttdcw" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_a1y8wjrr24511fvv7ovad6tp0" table="t_kleedkamerregistratie" schema="" catalog="project" columns="faciliteitId"/>
     </table>
     <table name="t_festival" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2004,6 +2013,7 @@
       <column name="startDate" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="FK_1c64ckhitpv6u66a2rsjmplls" table="t_festivalday" schema="" catalog="project" columns="festivalId"/>
+      <exported-key name="FK_51d0rrhx4xltt5cgtc62icpw6" table="t_ticketverkoop" schema="" catalog="project" columns="festivalId"/>
       <exported-key name="FK_dolu92sx1b43h6mmx3un8s0fr" table="t_zone" schema="" catalog="project" columns="festivalId"/>
     </table>
     <table name="t_festivalday" schema="" catalog="project" type="TABLE">
@@ -2021,6 +2031,17 @@
       <primary-key name="PRIMARY" columns="id"/>
       <exported-key name="FK_9gu2unqrixmgog9ftlr9fq9t5" table="t_ticketverkoop" schema="" catalog="project" columns="festivalgangerId"/>
     </table>
+    <table name="t_kleedkamerregistratie" schema="" catalog="project" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="beginDatum" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <column name="eindDatum" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <column name="flyer" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
+      <column name="faciliteitId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="optredenID" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_fnaeki0bk3eseumtl07js0vsq" columns="optredenID" ref-table="t_optreden" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_a1y8wjrr24511fvv7ovad6tp0" columns="faciliteitId" ref-table="t_faciliteit" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
     <table name="t_nummer" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="artiest" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
@@ -2032,33 +2053,44 @@
     </table>
     <table name="t_optreden" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
-      <column name="duration" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="endTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
       <column name="soundcheck" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="startTime" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
       <column name="artiestId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="festivaldagId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_725msxwgst9s0wd0jpwul87no" columns="festivaldagId" ref-table="t_festivalday" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_gtiicj0vnce9sow1p5ok6x1sq" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_725msxwgst9s0wd0jpwul87no" columns="festivaldagId" ref-table="t_festivalday" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_ooxg5s3fb8rxg05pwjiy3515d" columns="artiestId" ref-table="t_artiest" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="FK_fnaeki0bk3eseumtl07js0vsq" table="t_kleedkamerregistratie" schema="" catalog="project" columns="optredenID"/>
       <exported-key name="FK_19wr1grx4og68elp1i1dj50ed" table="t_nummer" schema="" catalog="project" columns="optredenId"/>
       <exported-key name="FK_s8brew22voq0ja4wrrb8jrb6c" table="t_optredenapparatuur" schema="" catalog="project" columns="optredenId"/>
     </table>
     <table name="t_optredenapparatuur" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="aantal" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
-      <column name="naam" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <column name="apparatuurId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="optredenId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_ryahovnfgf8q1g5a0axy2lfy9" columns="apparatuurId" ref-table="t_apparaturr" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_s8brew22voq0ja4wrrb8jrb6c" columns="optredenId" ref-table="t_optreden" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_ryahovnfgf8q1g5a0axy2lfy9" columns="apparatuurId" ref-table="t_apparaturr" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_persorgaan" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="naam" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
       <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="FK_18656frqeumpvs8n5xq4jrffs" table="t_perstoelating" schema="" catalog="project" columns="persorgaanId"/>
       <exported-key name="FK_8vfxil73b2fyi1gfb4btdaima" table="t_ticket" schema="" catalog="project" columns="persoonorgaanId"/>
+    </table>
+    <table name="t_perstoelating" schema="" catalog="project" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="soort" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="artiestId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="persorgaanId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_18656frqeumpvs8n5xq4jrffs" columns="persorgaanId" ref-table="t_persorgaan" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_9arxsxm9c1bqrt0kxxd4c8m4k" columns="artiestId" ref-table="t_artiest" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_ticket" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2075,8 +2107,8 @@
       <column name="festivaldagId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="ticketTypeId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_nt8x93l6klufmqa6wikyo69fu" columns="festivaldagId" ref-table="t_festivalday" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_plpj2f1hcg8wkdc2m43gjj9tt" columns="ticketTypeId" ref-table="t_tickettype" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_nt8x93l6klufmqa6wikyo69fu" columns="festivaldagId" ref-table="t_festivalday" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_tickettype" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2090,10 +2122,12 @@
     <table name="t_ticketverkoop" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
       <column name="timestamp" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
-      <column name="type" sqlType="VARCHAR" length="255" precision="0" nullable="true" jdbcType="12"/>
-      <column name="festivalgangerId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="type" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
+      <column name="festivalId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <column name="festivalgangerId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
       <foreign-key name="FK_9gu2unqrixmgog9ftlr9fq9t5" columns="festivalgangerId" ref-table="t_festivalganger" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_51d0rrhx4xltt5cgtc62icpw6" columns="festivalId" ref-table="t_festival" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_8f1ndb7jwbfe3uecuyju0q6jd" table="t_ticket" schema="" catalog="project" columns="ticketverkoopId"/>
     </table>
     <table name="t_ticketzone" schema="" catalog="project" type="TABLE">
@@ -2101,8 +2135,16 @@
       <column name="ticketTypeId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_16drabb8mreiyt0ugiw9k64du" columns="ticketTypeId" ref-table="t_tickettype" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_q6syt7kuukiv9yiwx840qkd97" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_16drabb8mreiyt0ugiw9k64du" columns="ticketTypeId" ref-table="t_tickettype" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+    </table>
+    <table name="t_tracking" schema="" catalog="project" type="TABLE">
+      <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="direction" sqlType="BIT" length="0" precision="0" nullable="false" jdbcType="-7"/>
+      <column name="timestamp" sqlType="DATETIME" length="19" precision="0" nullable="true" jdbcType="93"/>
+      <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="FK_g1afeu22w73qu7v5xhj86i12o" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
     </table>
     <table name="t_zone" schema="" catalog="project" type="TABLE">
       <column name="id" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4" autoIncrement="true"/>
@@ -2111,11 +2153,13 @@
       <column name="festivalId" sqlType="INT" length="10" precision="0" nullable="false" jdbcType="4"/>
       <column name="zoneId" sqlType="INT" length="10" precision="0" nullable="true" jdbcType="4"/>
       <primary-key name="PRIMARY" columns="id"/>
-      <foreign-key name="FK_dolu92sx1b43h6mmx3un8s0fr" columns="festivalId" ref-table="t_festival" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <foreign-key name="FK_lmtykdajksnhmdcmsh82icbg1" columns="zoneId" ref-table="t_zone" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="FK_dolu92sx1b43h6mmx3un8s0fr" columns="festivalId" ref-table="t_festival" ref-schema="" ref-catalog="project" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
       <exported-key name="FK_1lvb1gtuac68til1y89uq095v" table="t_apparaturr" schema="" catalog="project" columns="zoneId"/>
+      <exported-key name="FK_6sf8cclrq399rf9dg4rxttdcw" table="t_faciliteit" schema="" catalog="project" columns="zoneId"/>
       <exported-key name="FK_gtiicj0vnce9sow1p5ok6x1sq" table="t_optreden" schema="" catalog="project" columns="zoneId"/>
       <exported-key name="FK_q6syt7kuukiv9yiwx840qkd97" table="t_ticketzone" schema="" catalog="project" columns="zoneId"/>
+      <exported-key name="FK_g1afeu22w73qu7v5xhj86i12o" table="t_tracking" schema="" catalog="project" columns="zoneId"/>
       <exported-key name="FK_lmtykdajksnhmdcmsh82icbg1" table="t_zone" schema="" catalog="project" columns="zoneId"/>
     </table>
     <table name="actor" schema="" catalog="sakila" type="TABLE">
