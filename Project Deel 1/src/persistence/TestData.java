@@ -536,7 +536,7 @@ public class TestData {
 
         index = rand.nextInt(8) + 8;
 
-        for (int i = 0; i < 7500; i++) {
+        for (int i = 0; i < 750; i++) {
             polsbandjes.add(i);
         }
 
