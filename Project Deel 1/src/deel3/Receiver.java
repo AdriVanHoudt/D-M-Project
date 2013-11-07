@@ -186,14 +186,13 @@ public class Receiver {
         //collection leegmaken
         coll.drop();
 
+        Query getOptredens = session.createQuery("from Optreden ");
+        List<Optreden> optredens = getOptredens.list();
+        Optreden currentOptreden = new Optreden();
+
         for (Integer i : setTrackingPolsbandIds) {
             Query getTrackings = session.createQuery("from Tracking where PolsbandId = " + i);
             List<Tracking> trackings = getTrackings.list();
-
-            Query getOptredens = session.createQuery("from Optreden ");
-            List<Optreden> optredens = getOptredens.list();
-
-            Optreden currentOptreden = new Optreden();
 
             for (Tracking t : trackings) {
                 for(Optreden o : optredens){
