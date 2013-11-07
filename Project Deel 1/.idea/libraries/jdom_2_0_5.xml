@@ -1,7 +1,7 @@
 <component name="libraryTable">
-  <library name="jaxen-1.1.6">
+  <library name="jdom-2.0.5">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/lib/jaxen-1.1.6.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jdom-2.0.5.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

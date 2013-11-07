@@ -3,6 +3,7 @@ package deel3;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
+import model.Optreden;
 import model.Tracking;
 import model.Zone;
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -189,10 +190,21 @@ public class Receiver {
             Query getTrackings = session.createQuery("from Tracking where PolsbandId = " + i);
             List<Tracking> trackings = getTrackings.list();
 
+            Query getOptredens = session.createQuery("from Optreden ");
+            List<Optreden> optredens = getOptredens.list();
+
+            Optreden currentOptreden = new Optreden();
+
             for (Tracking t : trackings) {
+                for(Optreden o : optredens){
+                    if(t.getTimestamp().after(o.getStartTime()) && t.getTimestamp().before(o.getEndTime())){
+                        currentOptreden = o;
+                    }
+                }
                 tracking = new BasicDBObject("Timestamp", t.getTimestamp()).
                         append("Zone naam",t.getZone().getNaam()).
-                        append("Type",t.isDirection());
+                        append("Type",t.isDirection()).
+                        append("Optreden",currentOptreden.getArtiest().getNaam());
             }
 
             BasicDBObject polsband = new BasicDBObject("PolsbandId " + i,tracking);
