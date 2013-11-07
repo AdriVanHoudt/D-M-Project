@@ -33,7 +33,7 @@ public class Sender {
         Boolean isIn;
 
         for (Zone z : zones) {
-            for (int j = 0; j < 1000; j++) {
+            for (int j = 0; j < 100; j++) {
 
                 month = rand.nextInt(11);
                 year = rand.nextInt(5) + 2011;

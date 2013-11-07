@@ -71,7 +71,7 @@ public class Receiver {
     }
 
     public void receiveTrackings() throws JMSException {
-        String xmlString = "";
+        String xmlString;
         StringBuilder sb = new StringBuilder();
         sb.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?> \n<Festival>\n");
 
@@ -95,9 +95,10 @@ public class Receiver {
             // this call blocks until a new message arrives
             Message message = consumer.receive();
             TextMessage textMessage = (TextMessage) message;
-            sb.append(textMessage.getText() + "\n");
+            String messageString = textMessage.getText();
+            sb.append(messageString + "\n");
 
-            if (textMessage.getText().equals("exit")) {
+            if (messageString.equals("exit")) {
                 consumer.close();
                 session.close();
                 connection.close();
@@ -112,6 +113,7 @@ public class Receiver {
     }
 
     public void getTrackingsFromXml() throws JDOMException {
+        System.out.println("Geduld");
         Date d = new Date();
 
         XPath xPath = XPath.newInstance("//@zone");
@@ -140,9 +142,9 @@ public class Receiver {
             Query getZones = session.createQuery("from Zone where id = " + Integer.parseInt(trackingZones.get(i).getValue()));
             List<Zone> zones = getZones.list();
             tracking.setZone(zones.get(0));
-            //  session.saveOrUpdate(tracking);
+            session.saveOrUpdate(tracking);
         }
-        // tx.commit();
+        tx.commit();
 
         try{
             connectToMongoDB();
@@ -153,13 +155,10 @@ public class Receiver {
 
     public static org.jdom.Document openXML(String bestaandsNaam) {
         try {
-            org.jdom.Document d = new SAXBuilder().build(bestaandsNaam);
             //return d.getRootElement();
-            return d;
+            return new SAXBuilder().build(bestaandsNaam);
 
-        } catch (JDOMException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (JDOMException | IOException e) {
             e.printStackTrace();
         }
 
