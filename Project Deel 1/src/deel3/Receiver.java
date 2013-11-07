@@ -167,6 +167,9 @@ public class Receiver {
     }
 
     public void connectToMongoDB() throws UnknownHostException {
+        //new session
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
 
         MongoConnection mc = new MongoConnection();
         DB db = mc.mongoClient.getDB("project");
