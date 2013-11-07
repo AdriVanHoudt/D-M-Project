@@ -64,9 +64,37 @@ public class TestData {
         tx = session.beginTransaction();
         td.generateTrackings();
         tx.commit();
-
     }
 
+    public void runTestData() {
+        generateFestivals();
+        tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        generateArtists();
+        tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        generateOptredens();
+        tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        generateTicketType();
+        tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        generateFestivalgangers();
+        tx.commit();
+
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
+        generateTrackings();
+        tx.commit();
+    }
 
     public void generateFestivals() {
         String[] festivalNames = {"Rock Werchter", "Pukkelpop", "Tomorrowland", "Reggea Geel", "Dour", "Gentse Feesten",
@@ -557,7 +585,6 @@ public class TestData {
                     if (z.getFestival() == festivals.get(0) && !z.getNaam().contains("Stage")) {
                         for (FestivalDag dag : festivalDays) {
                             if (dag.getFestival() == festivals.get(0)) {
-
                                 Calendar cal = Calendar.getInstance();
                                 cal.setTime(dag.getDate());
 

@@ -12,7 +12,7 @@ public class Ticket {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "persoonorgaanId", nullable = true)
+    @JoinColumn(name = "persorgaanId", nullable = true)
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private PersOrgaan persOrgaan;
 

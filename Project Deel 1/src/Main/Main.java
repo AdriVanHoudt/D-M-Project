@@ -5,29 +5,41 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import persistence.HibernateUtil;
+import persistence.TestData;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     Scanner scanner = new Scanner(System.in);
-    static Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-    static Transaction tx = session.beginTransaction();
+    static Session session;
+    static Transaction tx;
 
 
     public static void main(String[] args) throws ParseException {
         Main me = new Main();
+
+        me.askTestData();
+
+        //session and transaction placed here because if you do want testdata you will open 2 session which is not allowed by hibernate
+        session = HibernateUtil.getSessionFactory().getCurrentSession();
+        tx = session.beginTransaction();
         me.runConsole();
         tx.commit();
     }
 
+    //ask for testdata
+    private void askTestData() {
+        System.out.println("Wilt u de testdata laden? (y/n)");
+        if (scanner.next().equals("y")) {
+            TestData td = new TestData();
+            td.runTestData();
+        }
+    }
 
-    //start console app
+    //start and run console app
     private void runConsole() throws ParseException {
         //init menu
         int menu = getOptionMainMenu();
@@ -39,8 +51,7 @@ public class Main {
                     //maak festivalganger
                     System.out.println("Geef je naam:");
                     FestivalGanger buyer = new FestivalGanger();
-                    buyer.setNaam(scanner.next());
-                    session.saveOrUpdate(buyer);
+                    buyer.setNaam(scanner.nextLine());
 
                     //getFestival
                     Festival festival = getFestival();
@@ -52,11 +63,9 @@ public class Main {
                     sale.setType(TicketVerkoop.VerkoopsType.WEB);
                     sale.setFestival(festival);
 
-                    session.saveOrUpdate(sale);
-
                     //get tickettypes
                     System.out.println("Welk tickettype wil je?");
-                    Query getticketTypes = session.createQuery("from TicketType where naam like : festivalname");
+                    Query getticketTypes = session.createQuery("from TicketType where naam like :festivalname");
                     String festivalname = "%" + festival.getName() + "%";
                     getticketTypes.setString("festivalname", festivalname);
 
@@ -71,17 +80,19 @@ public class Main {
                     }
 
                     int typeChoice = scanner.nextInt();
-                    if (scanner.hasNext()) scanner.next();
+                    scanner.nextLine();
                     TicketType tt = (TicketType) ticketTypes.get(typeChoice - 1);
 
                     //kies aantal
 
                     System.out.println("Hoeveel tickets wil je?:");
                     int aantalTickets = scanner.nextInt();
-                    if (scanner.hasNext()) scanner.next();
+                    scanner.nextLine();
 
                     //maak tickets
 
+                    session.saveOrUpdate(buyer);
+                    session.saveOrUpdate(sale);
                     for (int i = 0; i < aantalTickets; i++) {
                         Ticket ticket = new Ticket();
                         ticket.setTicketType(tt);
@@ -89,8 +100,8 @@ public class Main {
                         session.saveOrUpdate(ticket);
                     }
 
-                    System.out.println("Het totaal bedraagt:");
-                    System.out.println(tt.getPrijs() * aantalTickets);
+                    System.out.print("Het totaal bedraagt:");
+                    System.out.println("€" + (tt.getPrijs() * aantalTickets));
 
                     break;
                 case 2:
@@ -102,9 +113,9 @@ public class Main {
                     Zone zone = getZone(festival2);
 
                     //in out?
-                    System.out.println("In or out? (in = 1; out = 0");
+                    System.out.println("In or out? (in = 1 / out = 0)");
                     int isInInt = scanner.nextInt();
-                    if (scanner.hasNext()) scanner.next();
+                    scanner.nextLine();
 
                     Boolean isIn;
                     //isIn = true if isInInt = 1 else false
@@ -113,7 +124,7 @@ public class Main {
                     //poslbandID
                     System.out.println("Geef de polsbandId:");
                     int polsbandID = scanner.nextInt();
-                    if (scanner.hasNext()) scanner.next();
+                    scanner.nextLine();
 
                     //gentracking
                     Tracking tracking = new Tracking();
@@ -133,7 +144,7 @@ public class Main {
                     Zone zone2 = getZone(festival3);
 
                     //get date
-                    Query getDates = session.createQuery("select fd.date from FestivalDag fd where fd.festival = :festival");
+                    Query getDates = session.createQuery("select op.startTime from FestivalDag fd, Optreden op where fd.festival = :festival and op.festivalDag = fd");
 
                     getDates.setParameter("festival", festival3);
                     List dates = getDates.list();
@@ -141,24 +152,33 @@ public class Main {
                     System.out.println("Kies de datum:");
                     for (int i = 0; i < dates.size(); i++) {
                         System.out.print((i + 1) + ": ");
-                        System.out.println(((Date) dates.get(i)).toString());
+                        System.out.println((dates.get(i)).toString());
                     }
 
                     int datePick = scanner.nextInt();
-                    if (scanner.hasNext()) scanner.next();
+                    scanner.nextLine();
 
                     //get optredens in zone where startdate < date >  enddate
-                    Query getOptredens = session.createQuery("from Optreden op where op.startTime < : date AND op.endTime > : date");
-                    getOptredens.setParameter("date", dates.get(datePick - 1));
+                    Query getOptredens = session.createQuery("from Optreden op where :date > op.startTime and :date < op.endTime and op.zone = :zone");
+
+                    //add 1 min
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime((Date) dates.get(datePick - 1));
+                    cal.add(Calendar.MINUTE, 1);
+
+                    getOptredens.setParameter("date", cal.getTime());
+                    getOptredens.setParameter("zone", zone2);
                     List optredens = getOptredens.list();
 
+                    //output
+                    System.out.println("");
+                    System.out.println("Optreden: ");
                     for (Object o : optredens) {
                         System.out.println(((Optreden) o).getArtiest().getNaam());
                     }
 
                     break;
                 case 4:
-                    //TODO zoeken festival
                     //get artiests
                     Query getArtiests = session.createQuery("from Artiest");
                     List artiests = getArtiests.list();
@@ -166,11 +186,11 @@ public class Main {
                     System.out.println("Kies je artiest");
                     for (int i = 0; i < artiests.size(); i++) {
                         System.out.print((i + 1) + ": ");
-                        System.out.println(((Artiest) artiests.get(i - 1)).getNaam());
+                        System.out.println(((Artiest) artiests.get(i)).getNaam());
                     }
 
                     int artiestPick = scanner.nextInt();
-                    if (scanner.hasNext()) scanner.next();
+                    scanner.nextLine();
 
                     //get dates
                     SimpleDateFormat df = new SimpleDateFormat("mm/dd/yyyy");
@@ -183,37 +203,35 @@ public class Main {
                     Date d2 = df.parse(date2.trim());
 
                     //get festivals
-                    Query getFestivalDaysFromArtiest = session.createQuery("select o.festivalDag from Optreden o where o.artiest = : artiest ");
+                    Query getFestivalDaysFromArtiest = session.createQuery("select o.festivalDag from Optreden o where o.artiest = :artiest ");
                     getFestivalDaysFromArtiest.setParameter("artiest", artiests.get(artiestPick - 1));
 
                     List festivaldays = getFestivalDaysFromArtiest.list();
-                    List<Festival> festivals = new ArrayList();
 
-                    System.out.println("Festivals: ");
-
-                    for (int i = 0; i < festivaldays.size(); i++) {
-                        FestivalDag festivalday = (FestivalDag) festivaldays.get(i);
-                        Query getFestivals = session.createQuery("select fd.festival from FestivalDag fd, Optreden o where fd = : festivaldag AND fd.date BETWEEN : date1 AND : date2");
+                    Set<Festival> setFestival = new HashSet<>();
+                    for (Object festivalday1 : festivaldays) {
+                        FestivalDag festivalday = (FestivalDag) festivalday1;
+                        Query getFestivals = session.createQuery("select fd.festival from FestivalDag fd, Optreden o where fd = :festivaldag AND fd.date BETWEEN :date1 AND :date2");
                         getFestivals.setParameter("festivaldag", festivalday);
                         getFestivals.setDate("date1", d1);
                         getFestivals.setDate("date2", d2);
-                        for(Object f : getFestivals.list()){
-                            System.out.println(((Festival) f).getName());
-                        }
+                        setFestival.addAll(getFestivals.list());
                     }
 
-
+                    System.out.println("Festivals: ");
+                    for (Festival f : setFestival) {
+                        System.out.println(f.getName());
+                    }
                     break;
             }
 
             //gives the menu again
             menu = getOptionMainMenu();
         }
-        return;
     }
 
     private int getOptionMainMenu() {
-        System.out.println("Welcome");
+        System.out.println("");
         System.out.println("Kies welke opdracht je wilt uitvoeren:");
 
         //options
@@ -223,7 +241,7 @@ public class Main {
         System.out.println("4: Zoeken festival");
         System.out.println("5: Stoppen");
         int result = scanner.nextInt();
-        if (scanner.hasNext()) scanner.next();
+        scanner.nextLine();
 
         return result;
     }
@@ -241,14 +259,14 @@ public class Main {
         }
 
         int festivalChoice = scanner.nextInt();
-        if (scanner.hasNext()) scanner.next();
+        scanner.nextLine();
 
         return (Festival) festivals.get(festivalChoice - 1);
     }
 
     private Zone getZone(Festival festival) {
         //getzones
-        Query getZones = session.createQuery("from Zone zone where zone.festival = : festival ");
+        Query getZones = session.createQuery("from Zone zone where zone.festival = :festival and zone.naam like '%Stage%' ");
         getZones.setParameter("festival", festival);
         List zones = getZones.list();
 
@@ -257,11 +275,11 @@ public class Main {
         System.out.println("Welke zone?");
         for (int i = 0; i < zones.size(); i++) {
             System.out.print((i + 1) + ": ");
-            System.out.println(zones.get(i));
+            System.out.println(((Zone) zones.get(i)).getNaam());
         }
 
         int zone = scanner.nextInt();
-        if (scanner.hasNext()) scanner.next();
+        scanner.nextLine();
 
         return (Zone) zones.get(zone - 1);
     }
